@@ -72,9 +72,9 @@ export const translations = {
     // New league standings columns
     totalPoints: "Total Points",
     movement: "Move",
-    wins: "Wins",
+    wins: "Won",
     earlyArrivals: "Early",
-    sameDayPayments: "Payment",
+    sameDayPayments: "Pay",
     bonusPoints: "Bonus",
 
     // Medals
@@ -241,7 +241,7 @@ export const translations = {
     movement: "تغيير",
     wins: "فوز",
     earlyArrivals: "مبكر",
-    sameDayPayments: "الدفع",
+    sameDayPayments: "دفع",
     bonusPoints: "نقاط إضافية",
 
     // Medals

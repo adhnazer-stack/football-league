@@ -6,7 +6,8 @@
 
 export interface RMPlayer {
   id: string;
-  name: string;   // Arabic name
+  name: string;    // Arabic name
+  nameEn?: string; // English transliteration
   color: string;
 }
 
@@ -42,28 +43,28 @@ export const RM_SCORING = {
 
 /* ── Initial player list (22 Arabic players) ── */
 export const INITIAL_RM_PLAYERS: RMPlayer[] = [
-  { id: "rmp01", name: "صهيب",         color: "#3b82f6" },
-  { id: "rmp02", name: "جاد",           color: "#22c55e" },
-  { id: "rmp03", name: "زياد",          color: "#f59e0b" },
-  { id: "rmp04", name: "أبو يعقوب",    color: "#ef4444" },
-  { id: "rmp05", name: "فايز",          color: "#8b5cf6" },
-  { id: "rmp06", name: "عز",            color: "#06b6d4" },
-  { id: "rmp07", name: "باعروف",        color: "#f97316" },
-  { id: "rmp08", name: "مشعل",          color: "#ec4899" },
-  { id: "rmp09", name: "عزوز",          color: "#14b8a6" },
-  { id: "rmp10", name: "عزوز ديور",     color: "#a855f7" },
-  { id: "rmp11", name: "أحمد",          color: "#84cc16" },
-  { id: "rmp12", name: "فراس",          color: "#0ea5e9" },
-  { id: "rmp13", name: "يزن",           color: "#f43f5e" },
-  { id: "rmp14", name: "ديور",          color: "#d97706" },
-  { id: "rmp15", name: "طه",            color: "#7c3aed" },
-  { id: "rmp16", name: "فيلالي",        color: "#16a34a" },
-  { id: "rmp17", name: "باسم",          color: "#0891b2" },
-  { id: "rmp18", name: "عمار سفر",      color: "#9333ea" },
-  { id: "rmp19", name: "خوجه",          color: "#b45309" },
-  { id: "rmp20", name: "أبوزاده",       color: "#dc2626" },
-  { id: "rmp21", name: "منجا",          color: "#15803d" },
-  { id: "rmp22", name: "عبدالمجيد",    color: "#1d4ed8" },
+  { id: "rmp01", name: "صهيب",         nameEn: "Suhaib",         color: "#3b82f6" },
+  { id: "rmp02", name: "جاد",           nameEn: "Jad",            color: "#22c55e" },
+  { id: "rmp03", name: "زياد",          nameEn: "Ziyad",          color: "#f59e0b" },
+  { id: "rmp04", name: "أبو يعقوب",    nameEn: "Abu Yaqoob",     color: "#ef4444" },
+  { id: "rmp05", name: "فايز",          nameEn: "Faiz",           color: "#8b5cf6" },
+  { id: "rmp06", name: "عز",            nameEn: "Azz",            color: "#06b6d4" },
+  { id: "rmp07", name: "باعروف",        nameEn: "Baarouf",        color: "#f97316" },
+  { id: "rmp08", name: "مشعل",          nameEn: "Meshaal",        color: "#ec4899" },
+  { id: "rmp09", name: "عزوز",          nameEn: "Azouz",          color: "#14b8a6" },
+  { id: "rmp10", name: "عزوز ديور",     nameEn: "Azouz Dior",     color: "#a855f7" },
+  { id: "rmp11", name: "أحمد",          nameEn: "Ahmed",          color: "#84cc16" },
+  { id: "rmp12", name: "فراس",          nameEn: "Firas",          color: "#0ea5e9" },
+  { id: "rmp13", name: "يزن",           nameEn: "Yazan",          color: "#f43f5e" },
+  { id: "rmp14", name: "ديور",          nameEn: "Dior",           color: "#d97706" },
+  { id: "rmp15", name: "طه",            nameEn: "Taha",           color: "#7c3aed" },
+  { id: "rmp16", name: "فيلالي",        nameEn: "Filali",         color: "#16a34a" },
+  { id: "rmp17", name: "باسم",          nameEn: "Bassem",         color: "#0891b2" },
+  { id: "rmp18", name: "عمار سفر",      nameEn: "Ammar Safar",    color: "#9333ea" },
+  { id: "rmp19", name: "خوجه",          nameEn: "Khoja",          color: "#b45309" },
+  { id: "rmp20", name: "أبوزاده",       nameEn: "Abuzadeh",       color: "#dc2626" },
+  { id: "rmp21", name: "منجا",          nameEn: "Manja",          color: "#15803d" },
+  { id: "rmp22", name: "عبدالمجيد",    nameEn: "Abdulmajid",     color: "#1d4ed8" },
 ];
 
 /* ── Initial round history — empty (fresh season) ── */

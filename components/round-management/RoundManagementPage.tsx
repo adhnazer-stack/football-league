@@ -211,6 +211,8 @@ export function RoundManagementPage() {
           players={rm.players}
           selectedIds={rm.selections.winners}
           onToggle={rm.toggleWinner}
+          onSelectAll={rm.selectAllWinners}
+          onClearAll={rm.clearAllWinners}
           onConfirm={() => setWinnersConfirmed(true)}
           confirmed={winnersConfirmed}
           disabled={false}
@@ -229,6 +231,8 @@ export function RoundManagementPage() {
           players={rm.players}
           selectedIds={rm.selections.earlyArrivals}
           onToggle={rm.toggleEarlyArrival}
+          onSelectAll={rm.selectAllEarlyArrivals}
+          onClearAll={rm.clearAllEarlyArrivals}
           onConfirm={() => setEarlyConfirmed(true)}
           confirmed={earlyConfirmed}
           disabled={false}
@@ -247,6 +251,8 @@ export function RoundManagementPage() {
           players={rm.players}
           selectedIds={rm.selections.payments}
           onToggle={rm.togglePayment}
+          onSelectAll={rm.selectAllPayments}
+          onClearAll={rm.clearAllPayments}
           onConfirm={() => setPaymentConfirmed(true)}
           confirmed={paymentConfirmed}
           disabled={false}

@@ -117,6 +117,28 @@ export function useRoundManagement() {
     }));
   }, [setSelections]);
 
+  /* ── Select / Clear all per category ── */
+  const selectAllWinners = useCallback(() => {
+    setSelections((prev) => ({ ...prev, winners: players.map((p) => p.id) }));
+  }, [players, setSelections]);
+  const clearAllWinners = useCallback(() => {
+    setSelections((prev) => ({ ...prev, winners: [] }));
+  }, [setSelections]);
+
+  const selectAllEarlyArrivals = useCallback(() => {
+    setSelections((prev) => ({ ...prev, earlyArrivals: players.map((p) => p.id) }));
+  }, [players, setSelections]);
+  const clearAllEarlyArrivals = useCallback(() => {
+    setSelections((prev) => ({ ...prev, earlyArrivals: [] }));
+  }, [setSelections]);
+
+  const selectAllPayments = useCallback(() => {
+    setSelections((prev) => ({ ...prev, payments: players.map((p) => p.id) }));
+  }, [players, setSelections]);
+  const clearAllPayments = useCallback(() => {
+    setSelections((prev) => ({ ...prev, payments: [] }));
+  }, [setSelections]);
+
   /* ── Save current round (unlocked — survives refresh, stays open for editing) ── */
   const saveRound = useCallback(() => {
     const roundData: RMRound = {
@@ -308,6 +330,9 @@ export function useRoundManagement() {
     toggleWinner,
     toggleEarlyArrival,
     togglePayment,
+    selectAllWinners, clearAllWinners,
+    selectAllEarlyArrivals, clearAllEarlyArrivals,
+    selectAllPayments, clearAllPayments,
     saveRound,
     endCurrentRound,
     loadRoundForEditing,
