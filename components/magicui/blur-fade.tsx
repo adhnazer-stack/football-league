@@ -28,7 +28,8 @@ export function BlurFade({
   blur = "6px",
 }: BlurFadeProps) {
   const ref = useRef(null);
-  const inViewResult = useInView(ref, { once: true, margin: inViewMargin as Parameters<typeof useInView>[1]["margin"] });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const inViewResult = useInView(ref, { once: true, margin: inViewMargin } as any);
   const isVisible = !inView || inViewResult;
 
   const defaultVariants: Variants = {
