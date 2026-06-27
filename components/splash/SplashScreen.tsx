@@ -174,7 +174,7 @@ export function SplashScreen({ onComplete }: Props) {
       {visible && (
         <motion.div
           className="fixed inset-0 z-[200] overflow-hidden"
-          style={{ background:"linear-gradient(180deg,#000008 0%,#040b18 35%,#071222 60%,#050e08 100%)" }}
+          style={{ background:"linear-gradient(180deg,#000408 0%,#030a18 35%,#040e20 60%,#040c06 100%)" }}
           exit={{ opacity:0, scale:1.04 }}
           transition={{ duration:0.68, ease:"easeInOut" }}
         >
@@ -379,13 +379,8 @@ export function SplashScreen({ onComplete }: Props) {
                     style={{
                       fontSize:"clamp(28px,7.5vw,72px)",
                       letterSpacing:"0.14em",
-                      background:"linear-gradient(135deg,#ffd700 0%,#c9963c 40%,#ffe680 55%,#c9963c 70%,#ffd700 100%)",
-                      backgroundSize:"200% auto",
-                      WebkitBackgroundClip:"text",
-                      WebkitTextFillColor:"transparent",
-                      backgroundClip:"text",
-                      filter:"drop-shadow(0 0 40px rgba(255,210,0,0.5))",
-                      animation:"goldShimmer 4s linear infinite",
+                      color:"#C9A84C",
+                      textShadow:"0 0 60px rgba(201,168,76,0.45), 0 0 120px rgba(201,168,76,0.2)",
                     }}>
                     LEAGUE<br/>CHAMPIONSHIP
                   </h1>
@@ -396,7 +391,7 @@ export function SplashScreen({ onComplete }: Props) {
                   {/* Decorative line */}
                   <motion.div
                     className="mx-auto mt-3 rounded-full"
-                    style={{height:1,background:"linear-gradient(90deg,transparent,rgba(255,215,0,0.5),transparent)"}}
+                    style={{height:1,background:"linear-gradient(90deg,transparent,rgba(201,168,76,0.5),transparent)"}}
                     initial={{width:0}} animate={{width:"60%"}} transition={{delay:0.4,duration:0.6}}
                   />
                 </motion.div>
@@ -418,7 +413,7 @@ export function SplashScreen({ onComplete }: Props) {
                     style={{width:"min(280px,70vw)",height:3,background:"rgba(255,255,255,0.08)"}}>
                     <motion.div
                       className="h-full rounded-full"
-                      style={{background:"linear-gradient(90deg,#c9963c,#ffd700 50%,#00b4ff)"}}
+                      style={{background:"#C9A84C"}}
                       initial={{width:"0%"}}
                       animate={showProg?{width:"100%"}:{width:"0%"}}
                       transition={{duration:0.82,ease:"easeOut"}}

@@ -43,9 +43,9 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
         <div className="flex items-center gap-3">
           <div
             className="w-9 h-9 rounded-xl flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg,rgba(255,215,0,0.18),rgba(201,150,60,0.08))", border: "1px solid rgba(255,215,0,0.25)" }}
+            style={{ background: "var(--gold-subtle)", border: "1px solid var(--gold-border)" }}
           >
-            <Trophy size={17} style={{ color: "#ffd700" }} />
+            <Trophy size={17} style={{ color: "var(--gold)" }} />
           </div>
           <div>
             <h2 className="font-bold text-sm tracking-wide" style={{ color: "var(--text-primary)" }}>
@@ -58,8 +58,8 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
         </div>
         <motion.button
           className="flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-lg"
-          style={{ color: "var(--text-muted)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
-          whileHover={{ color: "#ffd700" }}
+          style={{ color: "var(--text-muted)", background: "var(--bg-elevated)", border: "1px solid var(--border)" }}
+          whileHover={{ color: "var(--gold)" }}
           whileTap={{ scale:0.95 }}
           onClick={(e) => { e.stopPropagation(); onExpand?.(); }}
         >
@@ -90,8 +90,8 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
         <motion.div variants={listIn} initial="hidden" animate="show">
           {rows.map((row, idx) => {
             const zoneColor =
-              row.rank === 1 ? "rgba(255,215,0,0.06)"
-              : row.rank <= 3 ? "rgba(0,100,220,0.05)"
+              row.rank === 1 ? "var(--gold-subtle)"
+              : row.rank <= 3 ? "var(--blue-subtle)"
               : "transparent";
 
             return (
@@ -103,11 +103,11 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
                 style={{
                   gridTemplateColumns: "32px 1fr 44px 32px 32px 36px",
                   background: zoneColor,
-                  borderBottom: "1px solid rgba(255,255,255,0.03)",
+                  borderBottom: "1px solid var(--border-subtle)",
                   position: "relative",
                 }}
                 variants={rowIn}
-                whileHover={{ background: row.rank <= 3 ? undefined : "rgba(255,255,255,0.04)" }}
+                whileHover={{ background: row.rank <= 3 ? undefined : "var(--bg-hover)" }}
               >
                 <div className="flex justify-center" style={{ position:"relative", zIndex:2 }}>
                   <MedalBadge rank={row.rank} size="sm" />
@@ -124,7 +124,7 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
                   </span>
                 </div>
                 {/* Direction A: NumberTicker on champion's points */}
-                <span className="text-right font-black" style={{ color: "#ffd700", position:"relative", zIndex:2 }}>
+                <span className="text-right font-black" style={{ color: "var(--gold)", position:"relative", zIndex:2 }}>
                   {row.rank === 1 ? (
                     <NumberTicker value={row.totalPoints} />
                   ) : (
@@ -134,10 +134,10 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
                 <div className="flex justify-center" style={{ position:"relative", zIndex:2 }}>
                   <MovementBadge movement={row.movement} />
                 </div>
-                <span className="text-right font-medium" style={{ color: "#22c55e", position:"relative", zIndex:2 }}>
+                <span className="text-right font-medium" style={{ color: "var(--green-bright)", position:"relative", zIndex:2 }}>
                   {row.wins}
                 </span>
-                <span className="text-right" style={{ color: "#00b4ff", position:"relative", zIndex:2 }}>
+                <span className="text-right" style={{ color: "var(--blue-bright)", position:"relative", zIndex:2 }}>
                   {row.earlyArrivals}
                 </span>
               </motion.div>
@@ -152,11 +152,11 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
         style={{ borderTop: "1px solid var(--border-subtle)", color: "var(--text-muted)" }}
       >
         <span className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "rgba(255,215,0,0.4)" }} />
+          <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "var(--gold-border)" }} />
           {language === "ar" ? "الصدارة" : "Leader"}
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "rgba(0,100,220,0.4)" }} />
+          <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "var(--blue-border)" }} />
           {language === "ar" ? "المنصة" : "Podium"}
         </span>
         <span className="ms-auto" style={{ color: "var(--text-muted)" }}>

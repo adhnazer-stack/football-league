@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import {
   INITIAL_RM_PLAYERS, INITIAL_RM_ROUNDS, calculateRMStats, randomPlayerColor,
   type RMPlayer, type RMRound, type RMPlayerStats,
@@ -64,6 +64,69 @@ export function useRoundManagement() {
 
   /* Derived stats (always recalculated from raw data) */
   const stats: RMPlayerStats[] = calculateRMStats(rounds, players);
+
+  /* ── Real-time sync helpers ── */
+  const lastBroadcastAt = useRef<number>(0);
+
+  const buildPayload = useCallback((
+    p: RMPlayer[], r: RMRound[], rn: number, sel: CurrentSelections
+  ) => ({
+    players: p,
+    rounds: r,
+    currentRoundNumber: rn,
+    selections: sel,
+    updatedAt: Date.now(),
+  }), []);
+
+  const broadcast = useCallback((
+    p: RMPlayer[], r: RMRound[], rn: number, sel: CurrentSelections
+  ) => {
+    const payload = buildPayload(p, r, rn, sel);
+    lastBroadcastAt.current = payload.updatedAt;
+    fetch("/api/sync", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }).catch(() => {});
+  }, [buildPayload]);
+
+  /* Poll every 2.5s — apply server state when it's newer than our last broadcast */
+  useEffect(() => {
+    const timer = setInterval(async () => {
+      try {
+        const res = await fetch("/api/sync", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = await res.json() as {
+          updatedAt?: number;
+          players?: RMPlayer[];
+          rounds?: RMRound[];
+          currentRoundNumber?: number;
+          selections?: CurrentSelections;
+        };
+        if (!data.updatedAt || data.updatedAt <= lastBroadcastAt.current) return;
+        // Server has newer state from another client — apply it
+        lastBroadcastAt.current = data.updatedAt;
+        if (Array.isArray(data.players)) {
+          save(LS.players, data.players);
+          _setPlayers(data.players);
+        }
+        if (Array.isArray(data.rounds)) {
+          save(LS.rounds, data.rounds);
+          _setRounds(data.rounds);
+        }
+        if (typeof data.currentRoundNumber === "number") {
+          save(LS.roundNum, data.currentRoundNumber);
+          _setRoundNum(data.currentRoundNumber);
+        }
+        if (data.selections) {
+          save(LS.selections, data.selections);
+          _setSelections(data.selections);
+        }
+      } catch { /* network errors are silently ignored */ }
+    }, 2500);
+    return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /* Persisted setters */
   const setPlayers = useCallback((updater: RMPlayer[] | ((p: RMPlayer[]) => RMPlayer[])) => {
@@ -152,15 +215,18 @@ export function useRoundManagement() {
     };
     setRounds((prev) => {
       const idx = prev.findIndex((r) => r.roundNumber === currentRoundNumber);
+      let next: RMRound[];
       if (idx >= 0) {
-        const updated = [...prev];
-        updated[idx] = roundData;
-        return updated;
+        next = [...prev];
+        next[idx] = roundData;
+      } else {
+        next = [...prev, roundData].sort((a, b) => a.roundNumber - b.roundNumber);
       }
-      return [...prev, roundData].sort((a, b) => a.roundNumber - b.roundNumber);
+      broadcast(players, next, currentRoundNumber, selections);
+      return next;
     });
     // Do NOT advance round number or clear selections — round stays open
-  }, [currentRoundNumber, selections, setRounds]);
+  }, [currentRoundNumber, selections, setRounds, broadcast, players]);
 
   /* ── End current round: lock + save + advance to next round ── */
   const endCurrentRound = useCallback(() => {
@@ -173,19 +239,23 @@ export function useRoundManagement() {
       locked: true,
       savedAt: new Date().toISOString(),
     };
+    const nextRoundNum = currentRoundNumber + 1;
     setRounds((prev) => {
       const idx = prev.findIndex((r) => r.roundNumber === currentRoundNumber);
+      let next: RMRound[];
       if (idx >= 0) {
-        const updated = [...prev];
-        updated[idx] = roundData;
-        return updated;
+        next = [...prev];
+        next[idx] = roundData;
+      } else {
+        next = [...prev, roundData].sort((a, b) => a.roundNumber - b.roundNumber);
       }
-      return [...prev, roundData].sort((a, b) => a.roundNumber - b.roundNumber);
+      broadcast(players, next, nextRoundNum, EMPTY_SEL);
+      return next;
     });
-    setRoundNum(currentRoundNumber + 1);
+    setRoundNum(nextRoundNum);
     setSelections(EMPTY_SEL);
     setEditingRound(null);
-  }, [currentRoundNumber, selections, setRounds, setRoundNum, setSelections]);
+  }, [currentRoundNumber, selections, setRounds, setRoundNum, setSelections, broadcast, players]);
 
   /* ── Load a round for editing ── */
   const loadRoundForEditing = useCallback((roundNumber: number) => {

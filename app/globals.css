@@ -5,62 +5,126 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* ── Dark theme ─────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   ELITE SPORT — Deep Navy · Championship Gold
+   180° from the old neon broadcast look
+   ═══════════════════════════════════════════════════════ */
+
 :root,
 [data-theme="dark"] {
-  --bg-base: #000005;
-  --bg-surface: #02040e;
+  /* ── Backgrounds — deep navy, NOT pure black ── */
+  --bg-base:     #06090F;
+  --bg-surface:  #0B1020;
+  --bg-card:     #0F1829;
+  --bg-elevated: #152035;
+  --bg-hover:    #1A2B42;
 
-  --stadium-gradient: radial-gradient(
-    ellipse 130% 70% at 50% -10%,
-    #0b1829 0%,
-    #04080f 35%,
-    #000005 70%,
-    #000003 100%
+  --bg-gradient: radial-gradient(
+    ellipse 160% 90% at 50% -5%,
+    #0E1F3D 0%,
+    #090E1D 45%,
+    #06090F 80%
   );
 
-  --nav-bg: rgba(0, 1, 6, 0.96);
-  --nav-border: rgba(255, 215, 0, 0.1);
+  /* ── Navigation ── */
+  --nav-bg:     rgba(6, 9, 15, 0.96);
+  --nav-border: rgba(201, 168, 76, 0.12);
 
-  --text-primary: #EEF5FF;
-  --text-secondary: #5E7EA0;
-  --text-muted: #2E4560;
+  /* ── Championship Gold — warm museum gold, NOT neon ── */
+  --gold:        #C9A84C;
+  --gold-bright: #E8C96A;
+  --gold-dim:    #7D6328;
+  --gold-subtle: rgba(201, 168, 76, 0.08);
+  --gold-border: rgba(201, 168, 76, 0.18);
 
-  --border-subtle: rgba(255, 255, 255, 0.04);
-  --border-gold: rgba(255, 215, 0, 0.18);
+  /* ── Power Red — for active state, danger ── */
+  --red:        #DC2626;
+  --red-bright: #EF4444;
+  --red-subtle: rgba(220, 38, 38, 0.1);
+  --red-border: rgba(220, 38, 38, 0.25);
 
-  --card-bg: rgba(3, 6, 18, 0.97);
-  --card-hover-shadow: 0 32px 80px rgba(0, 0, 0, 0.85);
+  /* ── Champion Green — for wins, success ── */
+  --green:        #16A34A;
+  --green-bright: #22C55E;
+  --green-subtle: rgba(22, 163, 74, 0.1);
+  --green-border: rgba(22, 163, 74, 0.25);
 
-  --neon-green: #00FF87;
-  --neon-gold: #FFD700;
-  --neon-blue: #00D4FF;
-  --neon-purple: #B06BFF;
-  --neon-red: #FF3154;
+  /* ── Data Blue — secondary information ── */
+  --blue:        #2563EB;
+  --blue-bright: #60A5FA;
+  --blue-subtle: rgba(37, 99, 235, 0.08);
+  --blue-border: rgba(96, 165, 250, 0.22);
+
+  /* ── Violet — payment indicator ── */
+  --violet:        #7C3AED;
+  --violet-bright: #A78BFA;
+  --violet-subtle: rgba(124, 58, 237, 0.1);
+  --violet-border: rgba(167, 139, 250, 0.22);
+
+  /* ── Typography ── */
+  --text-primary:   #F1F5F9;
+  --text-secondary: #64829E;
+  --text-muted:     #2E4460;
+
+  /* ── Borders ── */
+  --border:        rgba(255, 255, 255, 0.05);
+  --border-strong: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.03);
+  --border-gold:   rgba(201, 168, 76, 0.18);
+
+  /* ── Card ── */
+  --card-bg: #0F1829;
+  --card-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 32px 64px rgba(0, 0, 0, 0.55),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  --card-hover-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 40px 80px rgba(0, 0, 0, 0.65),
+    0 12px 32px rgba(0, 0, 0, 0.45);
+
+  /* Legacy compat */
+  --neon-green:  #22C55E;
+  --neon-gold:   var(--gold);
+  --neon-blue:   var(--blue-bright);
+  --neon-purple: var(--violet-bright);
+  --neon-red:    var(--red-bright);
 }
 
-/* ── Light theme ────────────────────────────────────────────── */
+/* ── Light theme ──────────────────────────────────────── */
 [data-theme="light"] {
-  --bg-base: #dce8fd;
-  --bg-surface: #e8f0fe;
+  --bg-base:     #EEF2F7;
+  --bg-surface:  #FFFFFF;
+  --bg-card:     #FFFFFF;
+  --bg-elevated: #F8FAFC;
+  --bg-hover:    #F1F5F9;
 
-  --stadium-gradient: linear-gradient(170deg, #c5d8f8 0%, #d0e2fc 35%, #dce8fd 65%, #d4e5fb 100%);
+  --bg-gradient: linear-gradient(170deg, #DDE8F5 0%, #E8EFF9 45%, #EEF2F7 80%);
 
-  --nav-bg: rgba(220, 232, 253, 0.9);
-  --nav-border: rgba(0, 80, 200, 0.1);
+  --nav-bg:     rgba(238, 242, 247, 0.95);
+  --nav-border: rgba(201, 168, 76, 0.2);
 
-  --text-primary: #0a0f1e;
-  --text-secondary: #2d4a72;
-  --text-muted: #5a7aa8;
+  --text-primary:   #0F172A;
+  --text-secondary: #475569;
+  --text-muted:     #94A3B8;
 
-  --border-subtle: rgba(0, 0, 0, 0.06);
-  --border-gold: rgba(180, 120, 0, 0.2);
+  --border:        rgba(0, 0, 0, 0.07);
+  --border-strong: rgba(0, 0, 0, 0.13);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  --border-gold:   rgba(201, 168, 76, 0.25);
 
-  --card-bg: rgba(255, 255, 255, 0.75);
-  --card-hover-shadow: 0 24px 64px rgba(0, 80, 200, 0.1);
+  --card-bg: #FFFFFF;
+  --card-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 4px 24px rgba(0, 0, 0, 0.07),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  --card-hover-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* ── Base ───────────────────────────────────────────────────── */
+/* ── Base ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -72,381 +136,210 @@ html {
 body {
   margin: 0;
   background: var(--bg-base);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-sans, system-ui, sans-serif);
   transition: background 0.35s ease, color 0.35s ease;
   overflow-x: hidden;
+  min-height: 100dvh;
 }
 
-/* ── Glass card — base ──────────────────────────────────────── */
-.glass-card {
+/* ── Elite Card — real shadows, no blur ───────────────── */
+.glass-card,
+.elite-card {
   background: var(--card-bg);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid var(--border-subtle);
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 18px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 20px 70px rgba(0, 0, 0, 0.75),
-    0 4px 16px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
   height: 100%;
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
 }
 
-/* ── Neon top-accent card variants ──────────────────────────── */
-.card-top-gold {
-  border-top: 2px solid rgba(255, 215, 0, 0.55) !important;
-  box-shadow:
-    inset 0 4px 30px rgba(255, 215, 0, 0.06),
-    0 20px 70px rgba(0, 0, 0, 0.75) !important;
-}
-.card-top-gold:hover {
-  border-top-color: rgba(255, 215, 0, 0.8) !important;
-  box-shadow:
-    inset 0 4px 40px rgba(255, 215, 0, 0.1),
-    0 28px 80px rgba(0, 0, 0, 0.85),
-    0 0 0 1px rgba(255, 215, 0, 0.12) !important;
+.glass-card:hover,
+.elite-card:hover {
+  box-shadow: var(--card-hover-shadow);
 }
 
-.card-top-green {
-  border-top: 2px solid rgba(0, 255, 135, 0.5) !important;
-  box-shadow:
-    inset 0 4px 30px rgba(0, 255, 135, 0.05),
-    0 20px 70px rgba(0, 0, 0, 0.75) !important;
+/* ── Card top-accent variants — 1px, no neon ── */
+.card-top-gold,
+.elite-card-gold {
+  border-top: 1px solid var(--gold-border) !important;
 }
-.card-top-green:hover {
-  border-top-color: rgba(0, 255, 135, 0.75) !important;
-  box-shadow:
-    inset 0 4px 40px rgba(0, 255, 135, 0.09),
-    0 28px 80px rgba(0, 0, 0, 0.85),
-    0 0 0 1px rgba(0, 255, 135, 0.1) !important;
+.card-top-green,
+.elite-card-green {
+  border-top: 1px solid var(--green-border) !important;
 }
-
-.card-top-blue {
-  border-top: 2px solid rgba(0, 212, 255, 0.5) !important;
-  box-shadow:
-    inset 0 4px 30px rgba(0, 212, 255, 0.05),
-    0 20px 70px rgba(0, 0, 0, 0.75) !important;
-}
-.card-top-blue:hover {
-  border-top-color: rgba(0, 212, 255, 0.75) !important;
-  box-shadow:
-    inset 0 4px 40px rgba(0, 212, 255, 0.09),
-    0 28px 80px rgba(0, 0, 0, 0.85),
-    0 0 0 1px rgba(0, 212, 255, 0.1) !important;
+.card-top-blue,
+.elite-card-blue {
+  border-top: 1px solid var(--blue-border) !important;
 }
 
-[data-theme="light"] .glass-card {
-  border-color: rgba(0, 80, 200, 0.08);
-  border-top-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 2px 20px rgba(0, 40, 120, 0.07);
+/* glass-card-premium compat alias */
+.glass-card-premium {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
 }
 
-/* ── Navigation icon button ─────────────────────────────────── */
+/* ── Navigation icon buttons ──────────────────────────── */
 .nav-icon-btn {
-  display: flex; align-items: center; justify-content: center;
-  width: 32px; height: 32px; border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
   color: var(--text-secondary);
-  cursor: pointer; transition: background 0.2s;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
 }
-[data-theme="light"] .nav-icon-btn {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.07);
-}
-.nav-icon-btn:hover { background: rgba(255, 255, 255, 0.1); }
-
-/* ── Custom scrollbar ───────────────────────────────────────── */
-::-webkit-scrollbar { width: 3px; height: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.2); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,215,0,0.4); }
-
-/* ── Splash screen ──────────────────────────────────────────── */
-@keyframes splashSpin {
-  0%   { transform: rotate(0deg)   translateY(0px); }
-  25%  { transform: rotate(90deg)  translateY(-10px); }
-  50%  { transform: rotate(180deg) translateY(0px); }
-  75%  { transform: rotate(270deg) translateY(-6px); }
-  100% { transform: rotate(360deg) translateY(0px); }
-}
-@keyframes trophyPulse {
-  0%, 100% { filter: drop-shadow(0 0 12px rgba(255,215,0,0.45)); }
-  50%       { filter: drop-shadow(0 0 30px rgba(255,215,0,0.85)) drop-shadow(0 0 55px rgba(255,165,0,0.35)); }
-}
-@keyframes confettiFall {
-  0%   { transform: translateY(0px)   rotate(0deg);   opacity: 1; }
-  80%  { opacity: 1; }
-  100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+.nav-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
 }
 
-/* ── Broadcast number — huge glowing stat ───────────────────── */
-.broadcast-number {
-  font-size: clamp(32px, 8vw, 56px);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.02em;
+/* ── Rank rows — background tints only, no side-stripe ── */
+.row-rank-1 {
+  background: rgba(201, 168, 76, 0.1) !important;
+  animation: goldPulse 4s ease-in-out infinite;
+  position: relative;
+}
+.row-rank-2 {
+  background: rgba(148, 163, 184, 0.06) !important;
+}
+.row-rank-3 {
+  background: rgba(180, 110, 50, 0.07) !important;
 }
 
-/* ── League label — small caps tracking ─────────────────────── */
-.league-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
+@keyframes goldPulse {
+  0%, 100% { background-color: rgba(201, 168, 76, 0.08) !important; }
+  50%       { background-color: rgba(201, 168, 76, 0.15) !important; }
 }
 
-/* ── Gold text ──────────────────────────────────────────────── */
-.gold-text {
-  background: linear-gradient(135deg, #ffd700 0%, #c9963c 50%, #ffe680 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ── Live indicator ───────────────────────────────────── */
+.live-dot {
+  background: var(--red-bright);
+  border-radius: 50%;
+  animation: livePulse 1.5s ease-in-out infinite;
 }
 
-.gold-shimmer {
-  background: linear-gradient(90deg,#c9963c 0%,#ffd700 28%,#fff5a0 48%,#ffd700 68%,#c9963c 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: goldShimmer 4.5s linear infinite;
+@keyframes livePulse {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: 0.4; transform: scale(1.55); }
 }
 
-/* ── Keyframes ──────────────────────────────────────────────── */
-@keyframes goldShimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
+/* ── Sync indicator (online/real-time) ────────────────── */
+.sync-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-bright);
+  animation: syncPulse 2s ease-in-out infinite;
 }
 
-@keyframes neonPulse {
+@keyframes syncPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1;   }
+}
+
+/* ── Skeleton shimmer ─────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.02) 25%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.02) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+[data-theme="light"] .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.04) 25%,
+    rgba(0, 0, 0, 0.09) 50%,
+    rgba(0, 0, 0, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Broadcast bar (admin page) ───────────────────────── */
+.broadcast-bar {
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Legacy animation names (kept for compat) ─────────── */
+.score-pop   { animation: scorePop  0.38s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.slide-up    { animation: slideUp   0.4s  ease-out forwards; }
+.num-appear  { animation: numFlash  0.4s  ease-out forwards; }
+.mvp-glow    { /* removed: was neon */ }
+.admin-badge { /* removed: was neon */ }
+
+@keyframes scorePop { from { transform: scale(1.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes slideUp  { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes numFlash { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── SplashScreen keyframes ───────────────────────────── */
+@keyframes stadiumLight {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.6; }
 }
 
-@keyframes livePulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); background: #ef4444; }
-  50%       { box-shadow: 0 0 0 6px rgba(239,68,68,0); background: #dc2626; }
+@keyframes trophyPulse {
+  0%, 100% { filter: drop-shadow(0 0 18px rgba(201,168,76,0.5)); }
+  50%       { filter: drop-shadow(0 0 38px rgba(201,168,76,0.85)); }
 }
 
-@keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position:  200% 0; }
+@keyframes goldShimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }
 
-@keyframes footballFloat {
-  0%   { transform: translateY(0px)   rotate(0deg); }
-  33%  { transform: translateY(-12px) rotate(120deg); }
-  66%  { transform: translateY(4px)   rotate(240deg); }
-  100% { transform: translateY(0px)   rotate(360deg); }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scorePop {
-  0%   { transform: scale(0.6); opacity: 0; }
-  65%  { transform: scale(1.12); opacity: 1; }
-  100% { transform: scale(1);    opacity: 1; }
-}
-
-@keyframes numFlash {
-  0%   { opacity: 0; transform: scale(0.8); }
-  60%  { opacity: 1; transform: scale(1.08); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-@keyframes achievePop {
-  0%   { transform: scale(0); opacity: 0; }
-  70%  { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1);    opacity: 1; }
-}
-
-@keyframes championGlow {
-  0%,  100% { box-shadow: 0 0 24px rgba(255,215,0,0.3); }
-  50%        { box-shadow: 0 0 55px rgba(255,215,0,0.65), 0 0 90px rgba(255,215,0,0.2); }
-}
-
-@keyframes mvpGlow {
-  0%, 100% { box-shadow: 0 0 24px rgba(255,215,0,0.22); border-color: rgba(255,215,0,0.3); }
-  50%       { box-shadow: 0 0 55px rgba(255,215,0,0.48); border-color: rgba(255,215,0,0.58); }
-}
-
-@keyframes adminPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
-  50%       { box-shadow: 0 0 0 7px rgba(34,197,94,0); }
-}
-
-@keyframes rankReveal {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes statEntrance {
-  from { opacity: 0; transform: scale(0.75) translateY(5px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-@keyframes scanPulse {
-  0%, 100% { opacity: 0; }
-  10%, 90% { opacity: 0.03; }
-  50%      { opacity: 0.06; }
-}
-
-@keyframes pitchReveal {
-  from { opacity: 0; transform: scaleX(0); }
-  to   { opacity: 1; transform: scaleX(1); }
-}
-
-@keyframes tickerScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* ── Utility classes ────────────────────────────────────────── */
-.live-dot { animation: livePulse 1.4s ease-out infinite; }
-.champion-glow { animation: championGlow 2.5s ease-in-out infinite; border-color: rgba(255,215,0,0.45) !important; }
-.mvp-glow { animation: mvpGlow 3s ease-in-out infinite; }
-.admin-badge { animation: adminPulse 2s ease-out infinite; }
-.score-pop { animation: scorePop 0.38s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-.slide-up { animation: slideUp 0.4s ease-out forwards; }
-.num-appear { animation: numFlash 0.4s ease-out forwards; }
+/* ── Utilities ────────────────────────────────────────── */
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-.skeleton {
-  background: linear-gradient(90deg,rgba(255,255,255,0.02) 25%,rgba(255,255,255,0.07) 50%,rgba(255,255,255,0.02) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
-}
-[data-theme="light"] .skeleton {
-  background: linear-gradient(90deg,rgba(0,0,0,0.04) 25%,rgba(0,0,0,0.09) 50%,rgba(0,0,0,0.04) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
-}
-
-/* ── Table rank rows ─────────────────────────────────────────── */
-.row-rank-1 {
-  background: linear-gradient(90deg,rgba(255,215,0,0.14) 0%,rgba(255,215,0,0.05) 55%,transparent 100%) !important;
-  border-left: 3px solid rgba(255,215,0,0.7) !important;
-}
-.row-rank-2 {
-  background: linear-gradient(90deg,rgba(180,180,200,0.1) 0%,rgba(180,180,200,0.04) 55%,transparent 100%) !important;
-  border-left: 3px solid rgba(192,192,212,0.5) !important;
-}
-.row-rank-3 {
-  background: linear-gradient(90deg,rgba(205,127,50,0.1) 0%,rgba(205,127,50,0.04) 55%,transparent 100%) !important;
-  border-left: 3px solid rgba(205,127,50,0.5) !important;
-}
-
-/* ── Broadcast bar ───────────────────────────────────────────── */
-.broadcast-bar {
-  background: linear-gradient(90deg,rgba(0,2,10,0.99) 0%,rgba(2,5,18,0.99) 50%,rgba(0,2,10,0.99) 100%);
-  border-bottom: 1px solid rgba(255,215,0,0.18);
-  box-shadow: 0 4px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,215,0,0.06) inset;
-}
-
-/* ── Premium card for MVP ────────────────────────────────────── */
-.glass-card-premium {
-  background: var(--card-bg);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid var(--border-subtle);
-  border-top: 1px solid rgba(255,255,255,0.07);
-  border-radius: 18px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 70px rgba(0,0,0,0.75);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
 button:focus-visible {
-  outline: 2px solid rgba(255,215,0,0.5);
+  outline: 2px solid rgba(201, 168, 76, 0.5);
   outline-offset: 2px;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ⚡ OVERDRIVE — Direction A: View Transitions
-   ═══════════════════════════════════════════════════════════════ */
-
+/* ── View Transitions ─────────────────────────────────── */
 @supports (view-transition-name: none) {
   ::view-transition-old(root) {
-    animation: 200ms cubic-bezier(0.4,0,1,1) both vt-exit;
+    animation: 200ms cubic-bezier(0.4, 0, 1, 1) both vt-exit;
   }
   ::view-transition-new(root) {
-    animation: 300ms cubic-bezier(0,0,0.2,1) both vt-enter;
+    animation: 300ms cubic-bezier(0, 0, 0.2, 1) both vt-enter;
   }
   ::view-transition-old(nav-bar),
-  ::view-transition-new(nav-bar) {
-    animation: none;
-  }
+  ::view-transition-new(nav-bar) { animation: none; }
 
-  @keyframes vt-exit {
-    to { opacity: 0; transform: translateY(-10px) scale(0.985); }
-  }
-  @keyframes vt-enter {
-    from { opacity: 0; transform: translateY(14px) scale(0.985); }
-  }
+  @keyframes vt-exit  { to   { opacity: 0; transform: translateY(-10px) scale(0.985); } }
+  @keyframes vt-enter { from { opacity: 0; transform: translateY(14px)  scale(0.985); } }
 }
 
-.vt-nav   { view-transition-name: nav-bar; }
-.vt-mvp   { view-transition-name: mvp-card; }
-.vt-hdr   { view-transition-name: league-header; }
+.vt-nav { view-transition-name: nav-bar; }
+.vt-mvp { view-transition-name: mvp-card; }
+.vt-hdr { view-transition-name: league-header; }
 
-/* ═══════════════════════════════════════════════════════════════
-   ⚡ OVERDRIVE — Direction B: @property neon border animation
-   ═══════════════════════════════════════════════════════════════ */
-
-@property --rank1-glow {
-  syntax: "<color>";
-  inherits: false;
-  initial-value: rgba(255,215,0,0.28);
-}
-
-@keyframes rank1Breathe {
-  0%,100% { --rank1-glow: rgba(255,215,0,0.28); }
-  50%      { --rank1-glow: rgba(255,215,0,0.72); }
-}
-
-.row-rank-1 {
-  box-shadow: inset 0 0 0 1px var(--rank1-glow), inset 3px 0 0 rgba(255,215,0,0.7) !important;
-  animation: rank1Breathe 2.8s ease-in-out infinite;
-  position: relative;
-}
-
-/* Sliding light beam across champion row */
-@property --beam-x {
-  syntax: "<percentage>";
-  inherits: false;
-  initial-value: -30%;
-}
-
-@keyframes beamSweep {
-  0%   { --beam-x: -30%; }
-  100% { --beam-x: 130%; }
-}
-
-.row-rank-1::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent calc(var(--beam-x) - 12%),
-    rgba(255,215,0,0.14) var(--beam-x),
-    transparent calc(var(--beam-x) + 12%)
-  );
-  animation: beamSweep 3.5s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   ⚡ OVERDRIVE — Direction B: Scroll-driven section reveals
-   ═══════════════════════════════════════════════════════════════ */
-
+/* ── Scroll-driven reveals ────────────────────────────── */
 @supports (animation-timeline: view()) {
   .scroll-reveal {
     animation: sdReveal linear both;
@@ -462,51 +355,35 @@ button:focus-visible {
 
 @keyframes sdReveal {
   from { opacity: 0.35; transform: translateY(22px) scale(0.975); }
-  to   { opacity: 1;    transform: translateY(0)    scale(1); }
+  to   { opacity: 1;    transform: none; }
 }
 @keyframes sdRevealUp {
   from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: none; }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ⚡ OVERDRIVE — Direction C: Spring press feedback
-   ═══════════════════════════════════════════════════════════════ */
-
+/* ── Press / tap feedback ─────────────────────────────── */
 .press-spring {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 .press-spring:active {
   transform: scale(0.97);
-  transition: transform 80ms cubic-bezier(0.34,1.56,0.64,1);
+  transition: transform 80ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ⚡ OVERDRIVE — prefers-reduced-motion (non-negotiable)
-   ═══════════════════════════════════════════════════════════════ */
-
+/* ── Reduced motion ───────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
   }
-
-  /* Keep View Transitions but make them instant crossfades */
   ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none !important;
-  }
-
-  /* Kill all looping neon pulses */
+  ::view-transition-new(root) { animation: none !important; }
   .live-dot,
-  .champion-glow,
-  .mvp-glow,
-  .admin-badge,
-  .row-rank-1 {
-    animation: none !important;
-  }
+  .sync-dot,
+  .row-rank-1 { animation: none !important; }
 }
