@@ -1,0 +1,149 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Trophy, ArrowRight } from "lucide-react";
+import { useApp } from "@/lib/context";
+import { t } from "@/lib/i18n";
+import { getCumulativeStandings } from "@/lib/calculations";
+import { leagueRounds, CURRENT_ROUND } from "@/lib/league-data";
+import { MedalBadge } from "@/components/standings/MedalBadge";
+import { MovementBadge } from "@/components/standings/MovementBadge";
+
+export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
+  const { language } = useApp();
+  const tx = (k: Parameters<typeof t>[1]) => t(language, k);
+  const isRtl = language === "ar";
+
+  const maxRound = leagueRounds[leagueRounds.length - 1]?.number ?? CURRENT_ROUND;
+  const rows = getCumulativeStandings(maxRound);
+
+  return (
+    <motion.div
+      className="glass-card flex flex-col overflow-hidden cursor-pointer"
+      whileHover={{ y: -6, boxShadow: "0 24px 64px rgba(0,180,255,0.14), 0 0 0 1px rgba(255,215,0,0.22)" }}
+      transition={{ duration: 0.3 }}
+      onClick={onExpand}
+      layout
+    >
+      {/* Header */}
+      <div
+        className="px-5 py-4 flex items-center justify-between"
+        style={{ borderBottom: "1px solid var(--border-subtle)" }}
+      >
+        <div className="flex items-center gap-3">
+          <div
+            className="w-9 h-9 rounded-xl flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg,rgba(255,215,0,0.18),rgba(201,150,60,0.08))", border: "1px solid rgba(255,215,0,0.25)" }}
+          >
+            <Trophy size={17} style={{ color: "#ffd700" }} />
+          </div>
+          <div>
+            <h2 className="font-bold text-sm tracking-wide" style={{ color: "var(--text-primary)" }}>
+              {tx("currentLeagueStandings")}
+            </h2>
+            <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+              {tx("round")} {maxRound} · {tx("season")}
+            </p>
+          </div>
+        </div>
+        <motion.button
+          className="flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-lg"
+          style={{ color: "var(--text-muted)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+          whileHover={{ color: "#ffd700" }}
+          onClick={(e) => { e.stopPropagation(); onExpand?.(); }}
+        >
+          {tx("viewAll")}
+          <ArrowRight size={12} className={isRtl ? "rotate-180" : ""} />
+        </motion.button>
+      </div>
+
+      {/* Column headers */}
+      <div
+        className="grid px-4 py-2 text-[10px] font-semibold tracking-wider uppercase"
+        style={{
+          gridTemplateColumns: "32px 1fr 44px 32px 32px 36px",
+          color: "var(--text-muted)",
+          borderBottom: "1px solid var(--border-subtle)",
+        }}
+      >
+        <span className="text-center">{tx("rank")}</span>
+        <span>{tx("player")}</span>
+        <span className="text-right">{tx("totalPoints")}</span>
+        <span className="text-center">{tx("movement")}</span>
+        <span className="text-right">{tx("wins")}</span>
+        <span className="text-right">{tx("earlyArrivals")}</span>
+      </div>
+
+      {/* Rows */}
+      <div className="flex-1 overflow-auto">
+        {rows.map((row, idx) => {
+          const zoneColor =
+            row.rank === 1 ? "rgba(255,215,0,0.06)"
+            : row.rank <= 3 ? "rgba(0,100,220,0.05)"
+            : "transparent";
+
+          return (
+            <motion.div
+              key={row.player.id}
+              className="grid px-4 py-2.5 text-xs items-center"
+              style={{
+                gridTemplateColumns: "32px 1fr 44px 32px 32px 36px",
+                background: zoneColor,
+                borderBottom: "1px solid rgba(255,255,255,0.03)",
+              }}
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: idx * 0.04 }}
+              whileHover={{ background: "rgba(255,255,255,0.04)" }}
+            >
+              <div className="flex justify-center">
+                <MedalBadge rank={row.rank} size="sm" />
+              </div>
+              <div className="flex items-center gap-2 min-w-0">
+                <div
+                  className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center text-[8px] font-black text-white"
+                  style={{ background: `linear-gradient(135deg,${row.player.color},${row.player.color}88)` }}
+                >
+                  {row.player.initials[0]}
+                </div>
+                <span className="font-semibold truncate" style={{ color: "var(--text-primary)" }}>
+                  {language === "ar" ? row.player.nameAr : row.player.name.split(" ")[0]}
+                </span>
+              </div>
+              <span className="text-right font-black" style={{ color: "#ffd700" }}>
+                {row.totalPoints}
+              </span>
+              <div className="flex justify-center">
+                <MovementBadge movement={row.movement} />
+              </div>
+              <span className="text-right font-medium" style={{ color: "#22c55e" }}>
+                {row.wins}
+              </span>
+              <span className="text-right" style={{ color: "#00b4ff" }}>
+                {row.earlyArrivals}
+              </span>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Legend */}
+      <div
+        className="flex items-center gap-4 px-4 py-3 text-[10px]"
+        style={{ borderTop: "1px solid var(--border-subtle)", color: "var(--text-muted)" }}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "rgba(255,215,0,0.4)" }} />
+          {language === "ar" ? "الصدارة" : "Leader"}
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "rgba(0,100,220,0.4)" }} />
+          {language === "ar" ? "المنصة" : "Podium"}
+        </span>
+        <span className="ms-auto" style={{ color: "var(--text-muted)" }}>
+          WIN=3 · EA=1 · SDP=1
+        </span>
+      </div>
+    </motion.div>
+  );
+}

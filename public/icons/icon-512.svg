@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0f1e"/>
+      <stop offset="100%" style="stop-color:#0d1535"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700"/>
+      <stop offset="50%" style="stop-color:#ffe680"/>
+      <stop offset="100%" style="stop-color:#c9963c"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="110" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="110" fill="none" stroke="url(#gold)" stroke-width="6" opacity="0.6"/>
+  <!-- Trophy cup -->
+  <g filter="url(#glow)" transform="translate(256,230)">
+    <!-- Cup body -->
+    <path d="M-72,-85 C-72,-85 -82,0 -62,48 C-46,84 0,100 0,100 C0,100 46,84 62,48 C82,0 72,-85 72,-85 Z" fill="url(#gold)"/>
+    <!-- Handles -->
+    <path d="M-72,-52 C-120,-52 -120,22 -72,22" fill="none" stroke="url(#gold)" stroke-width="14" stroke-linecap="round"/>
+    <path d="M72,-52 C120,-52 120,22 72,22" fill="none" stroke="url(#gold)" stroke-width="14" stroke-linecap="round"/>
+    <!-- Base stem -->
+    <rect x="-20" y="100" width="40" height="28" fill="url(#gold)" rx="4"/>
+    <!-- Base plate -->
+    <rect x="-58" y="128" width="116" height="18" fill="url(#gold)" rx="8"/>
+    <!-- Star on cup -->
+    <polygon points="0,-48 8,-26 30,-26 13,-13 20,8 0,-6 -20,8 -13,-13 -30,-26 -8,-26" fill="#fff" opacity="0.9"/>
+  </g>
+  <!-- Football -->
+  <circle cx="390" cy="400" r="48" fill="none" stroke="url(#gold)" stroke-width="4" opacity="0.45"/>
+  <text x="390" y="416" text-anchor="middle" font-size="52">⚽</text>
+  <!-- Small stars -->
+  <text x="110" y="420" text-anchor="middle" font-size="28" opacity="0.4" fill="#ffd700">★</text>
+  <text x="140" y="380" text-anchor="middle" font-size="18" opacity="0.25" fill="#ffd700">★</text>
+</svg>
