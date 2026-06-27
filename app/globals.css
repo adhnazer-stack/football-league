@@ -366,3 +366,147 @@ button:focus-visible {
   outline: 2px solid rgba(255,215,0,0.5);
   outline-offset: 2px;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ OVERDRIVE — Direction A: View Transitions
+   ═══════════════════════════════════════════════════════════════ */
+
+@supports (view-transition-name: none) {
+  ::view-transition-old(root) {
+    animation: 200ms cubic-bezier(0.4,0,1,1) both vt-exit;
+  }
+  ::view-transition-new(root) {
+    animation: 300ms cubic-bezier(0,0,0.2,1) both vt-enter;
+  }
+  ::view-transition-old(nav-bar),
+  ::view-transition-new(nav-bar) {
+    animation: none;
+  }
+
+  @keyframes vt-exit {
+    to { opacity: 0; transform: translateY(-10px) scale(0.985); }
+  }
+  @keyframes vt-enter {
+    from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  }
+}
+
+.vt-nav   { view-transition-name: nav-bar; }
+.vt-mvp   { view-transition-name: mvp-card; }
+.vt-hdr   { view-transition-name: league-header; }
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ OVERDRIVE — Direction B: @property neon border animation
+   ═══════════════════════════════════════════════════════════════ */
+
+@property --rank1-glow {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgba(255,215,0,0.28);
+}
+
+@keyframes rank1Breathe {
+  0%,100% { --rank1-glow: rgba(255,215,0,0.28); }
+  50%      { --rank1-glow: rgba(255,215,0,0.72); }
+}
+
+.row-rank-1 {
+  box-shadow: inset 0 0 0 1px var(--rank1-glow), inset 3px 0 0 rgba(255,215,0,0.7) !important;
+  animation: rank1Breathe 2.8s ease-in-out infinite;
+  position: relative;
+}
+
+/* Sliding light beam across champion row */
+@property --beam-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -30%;
+}
+
+@keyframes beamSweep {
+  0%   { --beam-x: -30%; }
+  100% { --beam-x: 130%; }
+}
+
+.row-rank-1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent calc(var(--beam-x) - 12%),
+    rgba(255,215,0,0.14) var(--beam-x),
+    transparent calc(var(--beam-x) + 12%)
+  );
+  animation: beamSweep 3.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ OVERDRIVE — Direction B: Scroll-driven section reveals
+   ═══════════════════════════════════════════════════════════════ */
+
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    animation: sdReveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 38%;
+  }
+  .scroll-reveal-up {
+    animation: sdRevealUp linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+}
+
+@keyframes sdReveal {
+  from { opacity: 0.35; transform: translateY(22px) scale(0.975); }
+  to   { opacity: 1;    transform: translateY(0)    scale(1); }
+}
+@keyframes sdRevealUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ OVERDRIVE — Direction C: Spring press feedback
+   ═══════════════════════════════════════════════════════════════ */
+
+.press-spring {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.press-spring:active {
+  transform: scale(0.97);
+  transition: transform 80ms cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ OVERDRIVE — prefers-reduced-motion (non-negotiable)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Keep View Transitions but make them instant crossfades */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+
+  /* Kill all looping neon pulses */
+  .live-dot,
+  .champion-glow,
+  .mvp-glow,
+  .admin-badge,
+  .row-rank-1 {
+    animation: none !important;
+  }
+}

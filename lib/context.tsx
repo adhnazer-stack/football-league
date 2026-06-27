@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback } from "react";
+import { flushSync } from "react-dom";
 import type { Language } from "./i18n";
 
 export type Theme = "dark" | "light";
@@ -48,9 +49,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
   const dismissEndRoundCelebration = useCallback(() => setEndRoundCelebrationVisible(false), []);
   const navigate = useCallback((page: Page, params?: { playerId?: string; roundNumber?: number }) => {
-    if (params?.playerId !== undefined) setSelectedPlayerId(params.playerId);
-    if (params?.roundNumber !== undefined) setSelectedRoundNumber(params.roundNumber);
-    setCurrentPage(page);
+    const update = () => {
+      if (params?.playerId !== undefined) setSelectedPlayerId(params.playerId);
+      if (params?.roundNumber !== undefined) setSelectedRoundNumber(params.roundNumber);
+      setCurrentPage(page);
+    };
+    if (typeof document !== "undefined" && "startViewTransition" in document) {
+      (document as Document & { startViewTransition: (cb: () => void) => void })
+        .startViewTransition(() => { flushSync(update); });
+    } else {
+      update();
+    }
   }, []);
   const adminLogin = useCallback((pw: string): boolean => {
     if (pw === ADMIN_PW) { setIsAdmin(true); return true; }

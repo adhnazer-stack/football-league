@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { Trophy, ArrowRight } from "lucide-react";
 import { useApp } from "@/lib/context";
 import { t } from "@/lib/i18n";
@@ -8,6 +8,16 @@ import { getCumulativeStandings } from "@/lib/calculations";
 import { leagueRounds, CURRENT_ROUND } from "@/lib/league-data";
 import { MedalBadge } from "@/components/standings/MedalBadge";
 import { MovementBadge } from "@/components/standings/MovementBadge";
+import { NumberTicker } from "@/components/magicui/number-ticker";
+
+const rowIn: Variants = {
+  hidden: { opacity: 0, x: -10, scale: 0.97 },
+  show:   { opacity: 1, x: 0,   scale: 1, transition: { type: "spring", stiffness: 340, damping: 26 } },
+};
+const listIn: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.055, delayChildren: 0.1 } },
+};
 
 export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
   const { language } = useApp();
@@ -20,8 +30,8 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
   return (
     <motion.div
       className="glass-card flex flex-col overflow-hidden cursor-pointer"
-      whileHover={{ y: -6, boxShadow: "0 24px 64px rgba(0,180,255,0.14), 0 0 0 1px rgba(255,215,0,0.22)" }}
-      transition={{ duration: 0.3 }}
+      whileHover={{ y:-5, transition:{ type:"spring", stiffness:380, damping:22 } }}
+      whileTap={{ scale:0.985, transition:{ type:"spring", stiffness:500, damping:24 } }}
       onClick={onExpand}
       layout
     >
@@ -50,6 +60,7 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
           className="flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-lg"
           style={{ color: "var(--text-muted)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
           whileHover={{ color: "#ffd700" }}
+          whileTap={{ scale:0.95 }}
           onClick={(e) => { e.stopPropagation(); onExpand?.(); }}
         >
           {tx("viewAll")}
@@ -74,57 +85,65 @@ export function StandingsCard({ onExpand }: { onExpand?: () => void }) {
         <span className="text-right">{tx("earlyArrivals")}</span>
       </div>
 
-      {/* Rows */}
+      {/* Rows — Direction B: @property champion beam applied via CSS on .row-rank-1 */}
       <div className="flex-1 overflow-auto">
-        {rows.map((row, idx) => {
-          const zoneColor =
-            row.rank === 1 ? "rgba(255,215,0,0.06)"
-            : row.rank <= 3 ? "rgba(0,100,220,0.05)"
-            : "transparent";
+        <motion.div variants={listIn} initial="hidden" animate="show">
+          {rows.map((row, idx) => {
+            const zoneColor =
+              row.rank === 1 ? "rgba(255,215,0,0.06)"
+              : row.rank <= 3 ? "rgba(0,100,220,0.05)"
+              : "transparent";
 
-          return (
-            <motion.div
-              key={row.player.id}
-              className="grid px-4 py-2.5 text-xs items-center"
-              style={{
-                gridTemplateColumns: "32px 1fr 44px 32px 32px 36px",
-                background: zoneColor,
-                borderBottom: "1px solid rgba(255,255,255,0.03)",
-              }}
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: idx * 0.04 }}
-              whileHover={{ background: "rgba(255,255,255,0.04)" }}
-            >
-              <div className="flex justify-center">
-                <MedalBadge rank={row.rank} size="sm" />
-              </div>
-              <div className="flex items-center gap-2 min-w-0">
-                <div
-                  className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center text-[8px] font-black text-white"
-                  style={{ background: `linear-gradient(135deg,${row.player.color},${row.player.color}88)` }}
-                >
-                  {row.player.initials[0]}
+            return (
+              <motion.div
+                key={row.player.id}
+                className={`grid px-4 py-2.5 text-xs items-center ${
+                  row.rank === 1 ? "row-rank-1" : row.rank === 2 ? "row-rank-2" : row.rank === 3 ? "row-rank-3" : ""
+                }`}
+                style={{
+                  gridTemplateColumns: "32px 1fr 44px 32px 32px 36px",
+                  background: zoneColor,
+                  borderBottom: "1px solid rgba(255,255,255,0.03)",
+                  position: "relative",
+                }}
+                variants={rowIn}
+                whileHover={{ background: row.rank <= 3 ? undefined : "rgba(255,255,255,0.04)" }}
+              >
+                <div className="flex justify-center" style={{ position:"relative", zIndex:2 }}>
+                  <MedalBadge rank={row.rank} size="sm" />
                 </div>
-                <span className="font-semibold truncate" style={{ color: "var(--text-primary)" }}>
-                  {language === "ar" ? row.player.nameAr : row.player.name.split(" ")[0]}
+                <div className="flex items-center gap-2 min-w-0" style={{ position:"relative", zIndex:2 }}>
+                  <div
+                    className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center text-[8px] font-black text-white"
+                    style={{ background: `linear-gradient(135deg,${row.player.color},${row.player.color}88)` }}
+                  >
+                    {row.player.initials[0]}
+                  </div>
+                  <span className="font-semibold truncate" style={{ color: "var(--text-primary)" }}>
+                    {language === "ar" ? row.player.nameAr : row.player.name.split(" ")[0]}
+                  </span>
+                </div>
+                {/* Direction A: NumberTicker on champion's points */}
+                <span className="text-right font-black" style={{ color: "#ffd700", position:"relative", zIndex:2 }}>
+                  {row.rank === 1 ? (
+                    <NumberTicker value={row.totalPoints} />
+                  ) : (
+                    row.totalPoints
+                  )}
                 </span>
-              </div>
-              <span className="text-right font-black" style={{ color: "#ffd700" }}>
-                {row.totalPoints}
-              </span>
-              <div className="flex justify-center">
-                <MovementBadge movement={row.movement} />
-              </div>
-              <span className="text-right font-medium" style={{ color: "#22c55e" }}>
-                {row.wins}
-              </span>
-              <span className="text-right" style={{ color: "#00b4ff" }}>
-                {row.earlyArrivals}
-              </span>
-            </motion.div>
-          );
-        })}
+                <div className="flex justify-center" style={{ position:"relative", zIndex:2 }}>
+                  <MovementBadge movement={row.movement} />
+                </div>
+                <span className="text-right font-medium" style={{ color: "#22c55e", position:"relative", zIndex:2 }}>
+                  {row.wins}
+                </span>
+                <span className="text-right" style={{ color: "#00b4ff", position:"relative", zIndex:2 }}>
+                  {row.earlyArrivals}
+                </span>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
 
       {/* Legend */}

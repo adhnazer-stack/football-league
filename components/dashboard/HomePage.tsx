@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { useApp } from "@/lib/context";
 import { PlayerStatsCard } from "./PlayerStatsCard";
 import { RoundPointsCard } from "./RoundPointsCard";
@@ -11,15 +10,6 @@ import { PlayerProfileModal } from "./PlayerProfileModal";
 import { LeagueHeader } from "./LeagueHeader";
 import { MVPCard } from "./MVPCard";
 
-const containerVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
-};
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 export function HomePage() {
   const { language } = useApp();
 
@@ -27,7 +17,6 @@ export function HomePage() {
   const [roundModalOpen, setRoundModalOpen] = useState(false);
   const [profilePlayerId, setProfilePlayerId] = useState<string | null>(null);
 
-  // Both PlayerStatsCard and FullStatsModal now use RM data directly, so IDs are rmp01, rmp02…
   const handlePlayerClick = (rmPlayerId: string) => {
     setProfilePlayerId(rmPlayerId);
     setStatsModalOpen(false);
@@ -35,35 +24,29 @@ export function HomePage() {
 
   return (
     <>
-      <motion.section
-        className="flex-1 px-4 md:px-6 lg:px-8 pt-5 pb-28 md:pb-10"
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-      >
-        {/* Premium League Header */}
-        <motion.div variants={cardVariants}>
-          <LeagueHeader />
-        </motion.div>
+      {/* Direction B: scroll-reveal on sections below fold */}
+      <section className="flex-1 px-4 md:px-6 lg:px-8 pt-5 pb-28 md:pb-10">
+        {/* League header — above fold, no scroll-reveal */}
+        <LeagueHeader />
 
-        {/* MVP Card */}
-        <motion.div variants={cardVariants}>
+        {/* MVP card — scroll-reveal */}
+        <div className="scroll-reveal">
           <MVPCard onPlayerClick={(id) => setProfilePlayerId(id)} />
-        </motion.div>
+        </div>
 
-        {/* 2 cards grid */}
+        {/* Stats grid — scroll-reveal with up variant */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <motion.div variants={cardVariants} className="min-h-[500px]">
+          <div className="min-h-[500px] scroll-reveal-up">
             <PlayerStatsCard
               onExpand={() => setStatsModalOpen(true)}
               onPlayerClick={handlePlayerClick}
             />
-          </motion.div>
-          <motion.div variants={cardVariants} className="min-h-[500px]">
+          </div>
+          <div className="min-h-[500px] scroll-reveal-up" style={{ animationDelay:"80ms" }}>
             <RoundPointsCard onExpand={() => setRoundModalOpen(true)} />
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       <FullStatsModal
         open={statsModalOpen}

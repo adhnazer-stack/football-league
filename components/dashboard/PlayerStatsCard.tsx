@@ -6,14 +6,15 @@ import { useApp } from "@/lib/context";
 import { t } from "@/lib/i18n";
 import { useRM } from "@/lib/round-management-context";
 import { MedalBadge } from "@/components/standings/MedalBadge";
+import { NumberTicker } from "@/components/magicui/number-ticker";
 
 const rowIn: Variants = {
-  hidden: { opacity: 0, x: 18 },
-  show:   { opacity: 1, x: 0, transition: { duration: 0.32 } },
+  hidden: { opacity: 0, x: 16 },
+  show:   { opacity: 1, x: 0, transition: { type: "spring", stiffness: 360, damping: 28 } },
 };
 const listIn: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.05 } },
+  show: { transition: { staggerChildren: 0.048 } },
 };
 
 export function PlayerStatsCard({
@@ -45,8 +46,8 @@ export function PlayerStatsCard({
   return (
     <motion.div
       className="glass-card card-top-blue flex flex-col overflow-hidden cursor-pointer"
-      whileHover={{ y:-6 }}
-      transition={{ duration:0.3 }}
+      whileHover={{ y:-5, transition:{ type:"spring", stiffness:380, damping:22 } }}
+      whileTap={{ scale:0.985, transition:{ type:"spring", stiffness:500, damping:24 } }}
       onClick={onExpand}
     >
       {/* Header */}
@@ -74,6 +75,7 @@ export function PlayerStatsCard({
           className="flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-lg"
           style={{ color:"var(--text-muted)", background:"rgba(0,212,255,0.05)", border:"1px solid rgba(0,212,255,0.12)" }}
           whileHover={{ color:"#00D4FF", background:"rgba(0,212,255,0.1)", borderColor:"rgba(0,212,255,0.3)" }}
+          whileTap={{ scale:0.95 }}
           onClick={e => { e.stopPropagation(); onExpand?.(); }}
         >
           {tx("viewAll")}
@@ -81,29 +83,24 @@ export function PlayerStatsCard({
         </motion.button>
       </div>
 
-      {/* Top 3 highlight panels */}
+      {/* Top 3 highlight panels — Direction A: NumberTicker */}
       <div className="grid grid-cols-3 gap-0" style={{ borderBottom:"1px solid rgba(255,255,255,0.05)" }}>
         {[
-          { label:tx("mostPoints"),       val:byPoints?.totalPoints??0,      id:byPoints?.playerId??"",      color:"#ffd700", icon:<Trophy size={13}/> },
-          { label:tx("mostWins"),          val:byWins?.wins??0,               id:byWins?.playerId??"",        color:"#00FF87", icon:<span style={{fontSize:13}}>🏆</span> },
-          { label:tx("mostEarlyArrivals"), val:byEarly?.earlyArrivals??0,     id:byEarly?.playerId??"",       color:"#00D4FF", icon:<Zap size={13}/> },
+          { label:tx("mostPoints"),       val:byPoints?.totalPoints??0, id:byPoints?.playerId??"",  color:"#ffd700", icon:<Trophy size={13}/>, delay:0 },
+          { label:tx("mostWins"),          val:byWins?.wins??0,          id:byWins?.playerId??"",    color:"#00FF87", icon:<span style={{fontSize:13}}>🏆</span>, delay:0.08 },
+          { label:tx("mostEarlyArrivals"), val:byEarly?.earlyArrivals??0,id:byEarly?.playerId??"",  color:"#00D4FF", icon:<Zap size={13}/>, delay:0.16 },
         ].map((s, i) => (
           <motion.div key={i}
             className="flex flex-col items-center py-4 gap-0.5"
             style={{ borderRight: i<2 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
-            initial={{ opacity:0, y:12 }}
-            animate={{ opacity:1, y:0 }}
-            transition={{ duration:0.4, delay:i*0.1 }}
+            initial={{ opacity:0, y:14, scale:0.92 }}
+            animate={{ opacity:1, y:0, scale:1 }}
+            transition={{ type:"spring", stiffness:380, damping:26, delay:s.delay }}
           >
             <span style={{ color:s.color }}>{s.icon}</span>
-            <motion.span
-              className="font-black"
-              style={{ fontSize:28, color:s.color, textShadow:`0 0 20px ${s.color}66` }}
-              key={s.val}
-              initial={{ scale:1.5, opacity:0 }}
-              animate={{ scale:1, opacity:1 }}
-              transition={{ duration:0.28 }}
-            >{s.val}</motion.span>
+            <span className="font-black" style={{ fontSize:28, color:s.color, textShadow:`0 0 20px ${s.color}66` }}>
+              <NumberTicker value={s.val} delay={s.delay} />
+            </span>
             <span style={{ color:"var(--text-muted)", fontSize:8, letterSpacing:"0.3em", textTransform:"uppercase", marginTop:2 }}>
               {s.label}
             </span>
@@ -138,9 +135,10 @@ export function PlayerStatsCard({
             return (
               <motion.div key={stat.playerId}
                 className={`grid px-4 py-2.5 items-center text-xs ${rankClass}`}
-                style={{ gridTemplateColumns:GRID, borderBottom:"1px solid rgba(255,255,255,0.025)", cursor:onPlayerClick?"pointer":"default" }}
+                style={{ gridTemplateColumns:GRID, borderBottom:"1px solid rgba(255,255,255,0.025)", cursor:onPlayerClick?"pointer":"default", position:"relative" }}
                 variants={rowIn}
                 whileHover={{ background:idx<3?undefined:"rgba(0,212,255,0.03)" }}
+                whileTap={{ scale:0.985 }}
                 onClick={e => { e.stopPropagation(); onPlayerClick?.(stat.playerId); }}
               >
                 <div className="flex justify-center">
@@ -166,7 +164,8 @@ export function PlayerStatsCard({
                   <motion.span key={`pts-${stat.totalPoints}`}
                     className="text-right font-black"
                     style={{ color:"#ffd700", textShadow:"0 0 10px rgba(255,215,0,0.4)" }}
-                    initial={{ scale:1.4 }} animate={{ scale:1 }} transition={{ duration:0.2 }}
+                    initial={{ scale:1.5, opacity:0 }} animate={{ scale:1, opacity:1 }}
+                    transition={{ type:"spring", stiffness:440, damping:22 }}
                   >{stat.totalPoints}</motion.span>
                 </AnimatePresence>
                 <span className="text-right font-bold" style={{ color:"#00FF87" }}>{stat.wins}</span>

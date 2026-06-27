@@ -10,12 +10,12 @@ import { MedalBadge } from "@/components/standings/MedalBadge";
 const TOTAL_ROUNDS = 18;
 
 const rowIn: Variants = {
-  hidden: { opacity:0, x:-16 },
-  show:   { opacity:1, x:0, transition:{ duration:0.3 } },
+  hidden: { opacity:0, x:-14, scale:0.97 },
+  show:   { opacity:1, x:0,   scale:1, transition:{ type:"spring", stiffness:360, damping:26 } },
 };
 const listIn: Variants = {
   hidden: {},
-  show:   { transition:{ staggerChildren:0.055 } },
+  show:   { transition:{ staggerChildren:0.052 } },
 };
 
 export function RoundPointsCard({ onExpand }: { onExpand?: () => void }) {
@@ -39,12 +39,13 @@ export function RoundPointsCard({ onExpand }: { onExpand?: () => void }) {
   const hasAnyPoints = rows.some(r => r.pts > 0);
   const isActive     = roundStatus === "active";
   const isEnded      = roundStatus === "ended";
+  const progress     = Math.min((currentRound / TOTAL_ROUNDS) * 100, 100);
 
   return (
     <motion.div
       className="glass-card card-top-green flex flex-col overflow-hidden cursor-pointer"
-      whileHover={{ y:-6 }}
-      transition={{ duration:0.3 }}
+      whileHover={{ y:-5, transition:{ type:"spring", stiffness:380, damping:22 } }}
+      whileTap={{ scale:0.985, transition:{ type:"spring", stiffness:500, damping:24 } }}
       onClick={onExpand}
     >
       {/* Header */}
@@ -72,6 +73,7 @@ export function RoundPointsCard({ onExpand }: { onExpand?: () => void }) {
           className="flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-lg"
           style={{ color:"var(--text-muted)", background:"rgba(0,255,135,0.05)", border:"1px solid rgba(0,255,135,0.12)" }}
           whileHover={{ color:"#00FF87", background:"rgba(0,255,135,0.1)", borderColor:"rgba(0,255,135,0.3)" }}
+          whileTap={{ scale:0.95 }}
           onClick={e => { e.stopPropagation(); onExpand?.(); }}
         >
           {tx("viewAll")}
@@ -91,10 +93,10 @@ export function RoundPointsCard({ onExpand }: { onExpand?: () => void }) {
               : "rgba(255,255,255,0.03)",
             border:`1px solid ${isActive?"rgba(0,255,135,0.22)":isEnded?"rgba(255,49,84,0.2)":"rgba(255,255,255,0.07)"}`,
           }}
-          initial={{ opacity:0, scale:0.97 }}
-          animate={{ opacity:1, scale:1 }}
-          exit={{ opacity:0, scale:0.97 }}
-          transition={{ duration:0.25 }}
+          initial={{ opacity:0, scale:0.96, y:-6 }}
+          animate={{ opacity:1, scale:1, y:0 }}
+          exit={{ opacity:0, scale:0.96, y:6 }}
+          transition={{ type:"spring", stiffness:380, damping:26 }}
         >
           {isActive ? (
             <>
@@ -138,7 +140,7 @@ export function RoundPointsCard({ onExpand }: { onExpand?: () => void }) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Progress bar */}
+      {/* Progress bar — spring overshoot on fill */}
       <div className="px-4 pb-2">
         <div className="flex justify-between mb-1.5" style={{ fontSize:9, color:"var(--text-muted)", letterSpacing:"0.2em" }}>
           <span>{tx("round")} {currentRound}</span>
@@ -148,12 +150,12 @@ export function RoundPointsCard({ onExpand }: { onExpand?: () => void }) {
           <motion.div className="h-full rounded-full"
             style={{ background:"linear-gradient(90deg,#00FF87,#00D4FF)" }}
             initial={{ width:0 }}
-            animate={{ width:`${Math.min((currentRound/TOTAL_ROUNDS)*100,100)}%` }}
-            transition={{ duration:1.2, delay:0.3 }}/>
+            animate={{ width:`${progress}%` }}
+            transition={{ type:"spring", stiffness:120, damping:18, delay:0.3 }}/>
         </div>
       </div>
 
-      {/* Section label + LIVE badge */}
+      {/* Section label */}
       <div className="flex items-center justify-between px-4 pb-1 pt-1">
         <p style={{ fontSize:9, fontWeight:700, letterSpacing:"0.35em", textTransform:"uppercase", color:"var(--text-muted)" }}>
           {tx("round")} {currentRound}
@@ -200,9 +202,9 @@ export function RoundPointsCard({ onExpand }: { onExpand?: () => void }) {
                         className="font-black text-sm min-w-[18px] text-right"
                         style={{ color:row.pts>0?"#ffd700":"var(--text-muted)",
                           textShadow:row.pts>0?"0 0 12px rgba(255,215,0,0.5)":"none" }}
-                        initial={{ scale:1.6, opacity:0 }}
+                        initial={{ scale:1.8, opacity:0 }}
                         animate={{ scale:1, opacity:1 }}
-                        transition={{ duration:0.2 }}
+                        transition={{ type:"spring", stiffness:460, damping:22 }}
                       >{row.pts}</motion.span>
                     </AnimatePresence>
                     <div className="flex gap-0.5 w-8 justify-end">

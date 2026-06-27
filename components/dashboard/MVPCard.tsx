@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Trophy, Zap, Coins } from "lucide-react";
 import { useApp } from "@/lib/context";
 import { useRM } from "@/lib/round-management-context";
+import { SplitFlap } from "@/components/ui/SplitFlap";
 
 export function MVPCard({ onPlayerClick }: { onPlayerClick?: (id: string) => void } = {}) {
   const { language } = useApp();
@@ -18,7 +19,9 @@ export function MVPCard({ onPlayerClick }: { onPlayerClick?: (id: string) => voi
     <motion.div
       className="relative rounded-2xl p-6 flex flex-col items-center justify-center gap-4 text-center mb-5 card-top-gold"
       style={{ background:"rgba(3,6,18,0.97)", minHeight:160 }}
-      initial={{ opacity:0, scale:0.95 }} animate={{ opacity:1, scale:1 }}
+      initial={{ opacity:0, scale:0.94 }}
+      animate={{ opacity:1, scale:1 }}
+      transition={{ type:"spring", stiffness:340, damping:26 }}
     >
       <motion.span className="text-5xl"
         animate={{ y:[0,-8,0] }} transition={{ duration:2.5, repeat:Infinity }}>🏆</motion.span>
@@ -60,12 +63,13 @@ export function MVPCard({ onPlayerClick }: { onPlayerClick?: (id: string) => voi
 
   return (
     <motion.div
-      className="relative overflow-hidden rounded-2xl mb-5 card-top-gold"
+      className="relative overflow-hidden rounded-2xl mb-5 card-top-gold vt-mvp press-spring"
       style={{ background:"rgba(3,6,18,0.97)", cursor: onPlayerClick ? "pointer" : "default" }}
-      initial={{ opacity:0, y:18 }}
-      animate={{ opacity:1, y:0 }}
-      transition={{ delay:0.18, duration:0.55 }}
-      whileHover={{ y:-3 }}
+      initial={{ opacity:0, y:18, scale:0.95 }}
+      animate={{ opacity:1, y:0, scale:1 }}
+      transition={{ type:"spring", stiffness:360, damping:26, delay:0.14 }}
+      whileHover={{ y:-4, transition:{ type:"spring", stiffness:400, damping:22 } }}
+      whileTap={{ scale:0.97, transition:{ type:"spring", stiffness:500, damping:22 } }}
       onClick={() => onPlayerClick?.(mvpPlayer.id)}
     >
       {/* Gold top shimmer */}
@@ -112,11 +116,12 @@ export function MVPCard({ onPlayerClick }: { onPlayerClick?: (id: string) => voi
               </motion.div>
             </motion.div>
           )}
+
           {/* Star badge */}
           <motion.div
             className="absolute top-2 left-2 w-6 h-6 rounded-full flex items-center justify-center text-[11px]"
             style={{ background:"linear-gradient(135deg,#ffd700,#c9963c)", boxShadow:"0 0 16px rgba(255,215,0,0.6)" }}
-            animate={{ scale:[1,1.2,1] }} transition={{ duration:1.8, repeat:Infinity }}
+            animate={{ scale:[1,1.22,1] }} transition={{ duration:1.8, repeat:Infinity }}
           >⭐</motion.div>
         </div>
 
@@ -154,14 +159,18 @@ export function MVPCard({ onPlayerClick }: { onPlayerClick?: (id: string) => voi
           </div>
         </div>
 
-        {/* RIGHT: Points */}
+        {/* RIGHT: Points — Direction C: SplitFlap digit-roll */}
         <div className="flex-shrink-0 flex flex-col items-center justify-center px-5 py-4"
           style={{ borderLeft:"1px solid rgba(255,215,0,0.1)" }}>
-          <motion.p className="font-black leading-none"
-            style={{ fontSize:52, color:"#ffd700",
-              textShadow:"0 0 30px rgba(255,215,0,0.7), 0 0 60px rgba(255,215,0,0.3)" }}
-            animate={{ scale:[1,1.06,1] }} transition={{ duration:2.2, repeat:Infinity }}
-          >{mvpData.pts}</motion.p>
+          <SplitFlap
+            value={mvpData.pts}
+            className="font-black leading-none"
+            style={{
+              fontSize:52,
+              color:"#ffd700",
+              textShadow:"0 0 30px rgba(255,215,0,0.7), 0 0 60px rgba(255,215,0,0.3)",
+            }}
+          />
           <p style={{ color:"rgba(255,215,0,0.45)", fontSize:9, letterSpacing:"0.4em", textTransform:"uppercase" }}>
             {isAr ? "نقطة" : "PTS"}
           </p>

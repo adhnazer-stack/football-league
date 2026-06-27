@@ -41,7 +41,7 @@ export function Navigation() {
 
       {/* ── Desktop nav ── */}
       <motion.nav
-        className="hidden md:flex items-center justify-between px-6 py-3 relative z-50"
+        className="hidden md:flex items-center justify-between px-6 py-3 relative z-50 vt-nav"
         style={{
           background: "rgba(0,1,6,0.96)",
           borderBottom: "1px solid rgba(255,215,0,0.1)",
