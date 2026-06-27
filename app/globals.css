@@ -1,73 +1,67 @@
 @import "tailwindcss";
 
-/* ── Custom design tokens ─────────────────────────────────────── */
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-/* ── Dark theme (default) ─────────────────────────────────────── */
+/* ── Dark theme ─────────────────────────────────────────────── */
 :root,
 [data-theme="dark"] {
-  --bg-base: #020408;
-  --bg-surface: #050a18;
+  --bg-base: #000005;
+  --bg-surface: #02040e;
 
-  --stadium-gradient: linear-gradient(
-    170deg,
-    #020408 0%,
-    #040810 18%,
-    #060d1c 45%,
-    #050b14 72%,
-    #030a08 100%
+  --stadium-gradient: radial-gradient(
+    ellipse 130% 70% at 50% -10%,
+    #0b1829 0%,
+    #04080f 35%,
+    #000005 70%,
+    #000003 100%
   );
 
-  --nav-bg: rgba(2, 4, 10, 0.88);
-  --nav-border: rgba(255, 215, 0, 0.12);
+  --nav-bg: rgba(0, 1, 6, 0.96);
+  --nav-border: rgba(255, 215, 0, 0.1);
 
-  --text-primary: #eef4ff;
-  --text-secondary: #7a9abf;
-  --text-muted: #3a5270;
+  --text-primary: #EEF5FF;
+  --text-secondary: #5E7EA0;
+  --text-muted: #2E4560;
 
-  --border-subtle: rgba(255, 255, 255, 0.055);
-  --border-gold: rgba(255, 215, 0, 0.2);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-gold: rgba(255, 215, 0, 0.18);
 
-  --card-bg: rgba(5, 9, 22, 0.92);
-  --card-hover-shadow: 0 24px 64px rgba(0, 255, 135, 0.06), 0 0 0 1px rgba(255,215,0,0.15);
+  --card-bg: rgba(3, 6, 18, 0.97);
+  --card-hover-shadow: 0 32px 80px rgba(0, 0, 0, 0.85);
+
+  --neon-green: #00FF87;
+  --neon-gold: #FFD700;
+  --neon-blue: #00D4FF;
+  --neon-purple: #B06BFF;
+  --neon-red: #FF3154;
 }
 
-/* ── Light theme ──────────────────────────────────────────────── */
+/* ── Light theme ────────────────────────────────────────────── */
 [data-theme="light"] {
   --bg-base: #dce8fd;
   --bg-surface: #e8f0fe;
 
-  --stadium-gradient: linear-gradient(
-    170deg,
-    #c5d8f8 0%,
-    #d0e2fc 35%,
-    #dce8fd 65%,
-    #d4e5fb 100%
-  );
+  --stadium-gradient: linear-gradient(170deg, #c5d8f8 0%, #d0e2fc 35%, #dce8fd 65%, #d4e5fb 100%);
 
-  --nav-bg: rgba(220, 232, 253, 0.85);
-  --nav-border: rgba(0, 80, 200, 0.12);
+  --nav-bg: rgba(220, 232, 253, 0.9);
+  --nav-border: rgba(0, 80, 200, 0.1);
 
   --text-primary: #0a0f1e;
   --text-secondary: #2d4a72;
   --text-muted: #5a7aa8;
 
-  --border-subtle: rgba(0, 0, 0, 0.07);
+  --border-subtle: rgba(0, 0, 0, 0.06);
   --border-gold: rgba(180, 120, 0, 0.2);
 
-  --card-bg: rgba(255, 255, 255, 0.72);
+  --card-bg: rgba(255, 255, 255, 0.75);
   --card-hover-shadow: 0 24px 64px rgba(0, 80, 200, 0.1);
 }
 
-/* ── Base ─────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+/* ── Base ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
@@ -84,70 +78,93 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Glass card ───────────────────────────────────────────────── */
+/* ── Glass card — base ──────────────────────────────────────── */
 .glass-card {
   background: var(--card-bg);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
   border: 1px solid var(--border-subtle);
-  border-top: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
   box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.06),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
-    0 8px 40px rgba(0, 0, 0, 0.52),
-    0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 20px 70px rgba(0, 0, 0, 0.75),
+    0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   height: 100%;
 }
 
-.glass-card:hover {
+/* ── Neon top-accent card variants ──────────────────────────── */
+.card-top-gold {
+  border-top: 2px solid rgba(255, 215, 0, 0.55) !important;
   box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.22),
-    0 20px 60px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 215, 0, 0.1);
+    inset 0 4px 30px rgba(255, 215, 0, 0.06),
+    0 20px 70px rgba(0, 0, 0, 0.75) !important;
+}
+.card-top-gold:hover {
+  border-top-color: rgba(255, 215, 0, 0.8) !important;
+  box-shadow:
+    inset 0 4px 40px rgba(255, 215, 0, 0.1),
+    0 28px 80px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 215, 0, 0.12) !important;
 }
 
-/* ── Navigation icon button (mobile) ─────────────────────────── */
+.card-top-green {
+  border-top: 2px solid rgba(0, 255, 135, 0.5) !important;
+  box-shadow:
+    inset 0 4px 30px rgba(0, 255, 135, 0.05),
+    0 20px 70px rgba(0, 0, 0, 0.75) !important;
+}
+.card-top-green:hover {
+  border-top-color: rgba(0, 255, 135, 0.75) !important;
+  box-shadow:
+    inset 0 4px 40px rgba(0, 255, 135, 0.09),
+    0 28px 80px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(0, 255, 135, 0.1) !important;
+}
+
+.card-top-blue {
+  border-top: 2px solid rgba(0, 212, 255, 0.5) !important;
+  box-shadow:
+    inset 0 4px 30px rgba(0, 212, 255, 0.05),
+    0 20px 70px rgba(0, 0, 0, 0.75) !important;
+}
+.card-top-blue:hover {
+  border-top-color: rgba(0, 212, 255, 0.75) !important;
+  box-shadow:
+    inset 0 4px 40px rgba(0, 212, 255, 0.09),
+    0 28px 80px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(0, 212, 255, 0.1) !important;
+}
+
+[data-theme="light"] .glass-card {
+  border-color: rgba(0, 80, 200, 0.08);
+  border-top-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 20px rgba(0, 40, 120, 0.07);
+}
+
+/* ── Navigation icon button ─────────────────────────────────── */
 .nav-icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   color: var(--text-secondary);
-  cursor: pointer;
-  transition: background 0.2s;
+  cursor: pointer; transition: background 0.2s;
 }
 [data-theme="light"] .nav-icon-btn {
-  background: rgba(0, 0, 0, 0.06);
-  border-color: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.07);
 }
-.nav-icon-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
+.nav-icon-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
-/* ── Custom scrollbar ─────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(201, 150, 60, 0.25);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 215, 0, 0.45);
-}
+/* ── Custom scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,215,0,0.4); }
 
-/* ── Splash screen keyframes ──────────────────────────────────── */
+/* ── Splash screen ──────────────────────────────────────────── */
 @keyframes splashSpin {
   0%   { transform: rotate(0deg)   translateY(0px); }
   25%  { transform: rotate(90deg)  translateY(-10px); }
@@ -155,19 +172,33 @@ body {
   75%  { transform: rotate(270deg) translateY(-6px); }
   100% { transform: rotate(360deg) translateY(0px); }
 }
-
 @keyframes trophyPulse {
-  0%,  100% { filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.45)); }
-  50%        { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.85)) drop-shadow(0 0 55px rgba(255, 165, 0, 0.35)); }
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(255,215,0,0.45)); }
+  50%       { filter: drop-shadow(0 0 30px rgba(255,215,0,0.85)) drop-shadow(0 0 55px rgba(255,165,0,0.35)); }
 }
-
 @keyframes confettiFall {
   0%   { transform: translateY(0px)   rotate(0deg);   opacity: 1; }
   80%  { opacity: 1; }
   100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
 }
 
-/* ── Utility classes ──────────────────────────────────────────── */
+/* ── Broadcast number — huge glowing stat ───────────────────── */
+.broadcast-number {
+  font-size: clamp(32px, 8vw, 56px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* ── League label — small caps tracking ─────────────────────── */
+.league-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+}
+
+/* ── Gold text ──────────────────────────────────────────────── */
 .gold-text {
   background: linear-gradient(135deg, #ffd700 0%, #c9963c 50%, #ffe680 100%);
   -webkit-background-clip: text;
@@ -175,86 +206,36 @@ body {
   background-clip: text;
 }
 
-.neon-text {
-  color: #00b4ff;
-  text-shadow: 0 0 20px rgba(0, 180, 255, 0.7);
+.gold-shimmer {
+  background: linear-gradient(90deg,#c9963c 0%,#ffd700 28%,#fff5a0 48%,#ffd700 68%,#c9963c 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 4.5s linear infinite;
 }
 
-.pitch-green {
-  color: #00ff87;
-  text-shadow: 0 0 18px rgba(0, 255, 135, 0.65);
+/* ── Keyframes ──────────────────────────────────────────────── */
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
 }
 
-/* Light mode card adjustments */
-[data-theme="light"] .glass-card {
-  border-color: rgba(0, 80, 200, 0.1);
-  border-top-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 2px 16px rgba(0, 40, 120, 0.07);
-}
-[data-theme="light"] .glass-card:hover {
-  box-shadow: 0 12px 40px rgba(0, 40, 120, 0.12), 0 0 0 1px rgba(0, 80, 200, 0.15);
-}
-
-/* ── Champion glow animation ──────────────────────────────── */
-@keyframes championGlow {
-  0%,  100% { box-shadow: 0 0 24px rgba(255,215,0,0.3), 0 0 48px rgba(255,215,0,0.1); }
-  50%        { box-shadow: 0 0 48px rgba(255,215,0,0.65), 0 0 90px rgba(255,215,0,0.22); }
-}
-
-.champion-glow {
-  animation: championGlow 2.5s ease-in-out infinite;
-  border-color: rgba(255, 215, 0, 0.45) !important;
-}
-
-/* ── Neon pulse glow ─────────────────────────────────────── */
 @keyframes neonPulse {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(0,255,135,0.3), 0 0 20px rgba(0,255,135,0.1);
-    border-color: rgba(0,255,135,0.35);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(0,255,135,0.6), 0 0 50px rgba(0,255,135,0.25);
-    border-color: rgba(0,255,135,0.65);
-  }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
 }
 
-.neon-card {
-  animation: neonPulse 2.8s ease-in-out infinite;
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); background: #ef4444; }
+  50%       { box-shadow: 0 0 0 6px rgba(239,68,68,0); background: #dc2626; }
 }
 
-/* ── Loading skeleton ──────────────────────────────────────── */
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
 }
 
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0.03) 25%,
-    rgba(255,255,255,0.09) 50%,
-    rgba(255,255,255,0.03) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
-}
-
-[data-theme="light"] .skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(0,0,0,0.05) 25%,
-    rgba(0,0,0,0.10) 50%,
-    rgba(0,0,0,0.05) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
-}
-
-/* ── Scrollbar hide for mobile nav ───────────────────────── */
-.hide-scrollbar::-webkit-scrollbar { display: none; }
-.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* ── Floating football spin ──────────────────────────────── */
 @keyframes footballFloat {
   0%   { transform: translateY(0px)   rotate(0deg); }
   33%  { transform: translateY(-12px) rotate(120deg); }
@@ -262,242 +243,126 @@ body {
   100% { transform: translateY(0px)   rotate(360deg); }
 }
 
-/* ── Card hover lift ─────────────────────────────────────── */
-.card-hover {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--card-hover-shadow);
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Count-up number flash ───────────────────────────────── */
+@keyframes scorePop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  65%  { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
 @keyframes numFlash {
   0%   { opacity: 0; transform: scale(0.8); }
   60%  { opacity: 1; transform: scale(1.08); }
   100% { opacity: 1; transform: scale(1); }
 }
 
-.num-appear {
-  animation: numFlash 0.4s ease-out forwards;
-}
-
-/* ── Achievement unlock pulse ────────────────────────────── */
 @keyframes achievePop {
   0%   { transform: scale(0); opacity: 0; }
   70%  { transform: scale(1.15); opacity: 1; }
   100% { transform: scale(1);    opacity: 1; }
 }
 
-/* ── Page entry from bottom ─────────────────────────────── */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes championGlow {
+  0%,  100% { box-shadow: 0 0 24px rgba(255,215,0,0.3); }
+  50%        { box-shadow: 0 0 55px rgba(255,215,0,0.65), 0 0 90px rgba(255,215,0,0.2); }
 }
 
-.slide-up {
-  animation: slideUp 0.4s ease-out forwards;
-}
-
-/* ── MVP golden pulse ────────────────────────────────────── */
 @keyframes mvpGlow {
-  0%, 100% {
-    box-shadow: 0 0 24px rgba(255,215,0,0.22), 0 8px 32px rgba(0,0,0,0.45);
-    border-color: rgba(255,215,0,0.3);
-  }
-  50% {
-    box-shadow: 0 0 55px rgba(255,215,0,0.48), 0 8px 50px rgba(0,0,0,0.55);
-    border-color: rgba(255,215,0,0.58);
-  }
+  0%, 100% { box-shadow: 0 0 24px rgba(255,215,0,0.22); border-color: rgba(255,215,0,0.3); }
+  50%       { box-shadow: 0 0 55px rgba(255,215,0,0.48); border-color: rgba(255,215,0,0.58); }
 }
 
-.mvp-glow {
-  animation: mvpGlow 3s ease-in-out infinite;
-}
-
-/* ── Stadium lighting flicker ────────────────────────────── */
-@keyframes stadiumLight {
-  0%, 90%, 100% { opacity: 1; }
-  92%            { opacity: 0.85; }
-  95%            { opacity: 1; }
-  97%            { opacity: 0.9; }
-}
-
-/* ── League header shimmer ───────────────────────────────── */
-@keyframes goldShimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
-}
-
-.gold-shimmer {
-  background: linear-gradient(90deg, #c9963c 0%, #ffd700 28%, #ffe680 48%, #ffd700 68%, #c9963c 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: goldShimmer 4s linear infinite;
-}
-
-/* ── Admin badge pulse ────────────────────────────────────── */
 @keyframes adminPulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
   50%       { box-shadow: 0 0 0 7px rgba(34,197,94,0); }
 }
 
-.admin-badge {
-  animation: adminPulse 2s ease-out infinite;
-}
-
-/* ── Better glass card for premium feel ─────────────────── */
-.glass-card-premium {
-  background: var(--card-bg);
-  backdrop-filter: blur(28px) saturate(170%);
-  -webkit-backdrop-filter: blur(28px) saturate(170%);
-  border: 1px solid var(--border-subtle);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.07),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-    0 8px 48px rgba(0, 0, 0, 0.55),
-    0 2px 12px rgba(0, 0, 0, 0.35);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.glass-card-premium:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.09),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
-    0 24px 70px rgba(0, 0, 0, 0.62),
-    0 0 0 1px rgba(255, 215, 0, 0.18);
-}
-
-/* ── Grass texture overlay for stadium bg ───────────────── */
-.grass-lines {
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 40px,
-    rgba(255,255,255,0.01) 40px,
-    rgba(255,255,255,0.01) 41px
-  );
-}
-
-/* ── Twinkle for stars ───────────────────────────────────── */
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50%       { opacity: 1;   transform: scale(1.4); }
-}
-
-/* ── Live broadcast pulse ─────────────────────────────────── */
-@keyframes livePulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); background: #ef4444; }
-  50%       { box-shadow: 0 0 0 7px rgba(239,68,68,0); background: #dc2626; }
-}
-
-.live-dot {
-  animation: livePulse 1.4s ease-out infinite;
-}
-
-/* ── Broadcast ticker scroll ─────────────────────────────── */
-@keyframes tickerScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* ── Top 3 row styles (league table) ─────────────────────── */
-.row-rank-1 {
-  background: linear-gradient(
-    90deg,
-    rgba(255,215,0,0.13) 0%,
-    rgba(255,215,0,0.06) 55%,
-    transparent 100%
-  ) !important;
-  border-left: 3px solid rgba(255,215,0,0.65) !important;
-}
-.row-rank-2 {
-  background: linear-gradient(
-    90deg,
-    rgba(192,192,192,0.11) 0%,
-    rgba(192,192,192,0.05) 55%,
-    transparent 100%
-  ) !important;
-  border-left: 3px solid rgba(192,192,192,0.48) !important;
-}
-.row-rank-3 {
-  background: linear-gradient(
-    90deg,
-    rgba(205,127,50,0.11) 0%,
-    rgba(205,127,50,0.05) 55%,
-    transparent 100%
-  ) !important;
-  border-left: 3px solid rgba(205,127,50,0.48) !important;
-}
-
-/* ── Number count-up pop ─────────────────────────────────── */
-@keyframes scorePop {
-  0%   { transform: scale(0.65); opacity: 0; }
-  65%  { transform: scale(1.14); opacity: 1; }
-  100% { transform: scale(1);    opacity: 1; }
-}
-.score-pop {
-  animation: scorePop 0.38s cubic-bezier(0.34,1.56,0.64,1) forwards;
-}
-
-/* ── Broadcast header bar ────────────────────────────────── */
-.broadcast-bar {
-  background: linear-gradient(
-    90deg,
-    rgba(0,6,20,0.98) 0%,
-    rgba(4,10,30,0.98) 50%,
-    rgba(0,6,20,0.98) 100%
-  );
-  border-bottom: 1px solid rgba(255,215,0,0.2);
-  box-shadow: 0 4px 40px rgba(0,0,0,0.55), 0 1px 0 rgba(255,215,0,0.07) inset;
-}
-
-/* ── Smooth number reveal ─────────────────────────────────── */
 @keyframes rankReveal {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Electric scan line ──────────────────────────────────── */
-@keyframes scanLine {
-  0%   { transform: translateY(-100%); opacity: 0; }
-  10%  { opacity: 0.6; }
-  90%  { opacity: 0.6; }
-  100% { transform: translateY(100vh); opacity: 0; }
-}
-
-/* ── Neon flicker ────────────────────────────────────────── */
-@keyframes neonFlicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-  20%, 24%, 55% { opacity: 0.7; }
-}
-
-/* ── Premium focus ring ──────────────────────────────────── */
-button:focus-visible {
-  outline: 2px solid rgba(255,215,0,0.55);
-  outline-offset: 2px;
-}
-
-/* ── Stat value entrance ─────────────────────────────────── */
 @keyframes statEntrance {
   from { opacity: 0; transform: scale(0.75) translateY(5px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* ── Electric border glow ────────────────────────────────── */
-.electric-border {
-  border: 1px solid rgba(0, 255, 135, 0.4);
-  box-shadow: 0 0 12px rgba(0, 255, 135, 0.2), inset 0 0 8px rgba(0, 255, 135, 0.05);
+@keyframes scanPulse {
+  0%, 100% { opacity: 0; }
+  10%, 90% { opacity: 0.03; }
+  50%      { opacity: 0.06; }
 }
 
-/* ── Pitch card variant ──────────────────────────────────── */
-.pitch-card {
-  background: linear-gradient(145deg, rgba(0,30,12,0.9), rgba(0,20,8,0.85));
-  border: 1px solid rgba(0, 255, 135, 0.15);
+@keyframes pitchReveal {
+  from { opacity: 0; transform: scaleX(0); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── Utility classes ────────────────────────────────────────── */
+.live-dot { animation: livePulse 1.4s ease-out infinite; }
+.champion-glow { animation: championGlow 2.5s ease-in-out infinite; border-color: rgba(255,215,0,0.45) !important; }
+.mvp-glow { animation: mvpGlow 3s ease-in-out infinite; }
+.admin-badge { animation: adminPulse 2s ease-out infinite; }
+.score-pop { animation: scorePop 0.38s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.slide-up { animation: slideUp 0.4s ease-out forwards; }
+.num-appear { animation: numFlash 0.4s ease-out forwards; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.skeleton {
+  background: linear-gradient(90deg,rgba(255,255,255,0.02) 25%,rgba(255,255,255,0.07) 50%,rgba(255,255,255,0.02) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+[data-theme="light"] .skeleton {
+  background: linear-gradient(90deg,rgba(0,0,0,0.04) 25%,rgba(0,0,0,0.09) 50%,rgba(0,0,0,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* ── Table rank rows ─────────────────────────────────────────── */
+.row-rank-1 {
+  background: linear-gradient(90deg,rgba(255,215,0,0.14) 0%,rgba(255,215,0,0.05) 55%,transparent 100%) !important;
+  border-left: 3px solid rgba(255,215,0,0.7) !important;
+}
+.row-rank-2 {
+  background: linear-gradient(90deg,rgba(180,180,200,0.1) 0%,rgba(180,180,200,0.04) 55%,transparent 100%) !important;
+  border-left: 3px solid rgba(192,192,212,0.5) !important;
+}
+.row-rank-3 {
+  background: linear-gradient(90deg,rgba(205,127,50,0.1) 0%,rgba(205,127,50,0.04) 55%,transparent 100%) !important;
+  border-left: 3px solid rgba(205,127,50,0.5) !important;
+}
+
+/* ── Broadcast bar ───────────────────────────────────────────── */
+.broadcast-bar {
+  background: linear-gradient(90deg,rgba(0,2,10,0.99) 0%,rgba(2,5,18,0.99) 50%,rgba(0,2,10,0.99) 100%);
+  border-bottom: 1px solid rgba(255,215,0,0.18);
+  box-shadow: 0 4px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,215,0,0.06) inset;
+}
+
+/* ── Premium card for MVP ────────────────────────────────────── */
+.glass-card-premium {
+  background: var(--card-bg);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+  border-top: 1px solid rgba(255,255,255,0.07);
   border-radius: 18px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(0,255,135,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 70px rgba(0,0,0,0.75);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:focus-visible {
+  outline: 2px solid rgba(255,215,0,0.5);
+  outline-offset: 2px;
 }

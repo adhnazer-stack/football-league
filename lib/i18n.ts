@@ -72,7 +72,7 @@ export const translations = {
     // New league standings columns
     totalPoints: "Total Points",
     movement: "Move",
-    wins: "Won",
+    wins: "Win",
     earlyArrivals: "Early",
     sameDayPayments: "Pay",
     bonusPoints: "Bonus",
