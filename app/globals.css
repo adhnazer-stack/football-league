@@ -154,12 +154,33 @@ body {
   box-shadow: var(--card-shadow);
   overflow: hidden;
   height: 100%;
-  transition: box-shadow 0.22s ease, transform 0.22s ease;
+  transition: box-shadow 0.28s ease, transform 0.28s ease;
+  position: relative;
 }
 
 .glass-card:hover,
 .elite-card:hover {
   box-shadow: var(--card-hover-shadow);
+}
+
+/* ── Football pitch micro-texture inside cards ── */
+.elite-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 40px,
+      rgba(201,168,76,0.012) 40px,
+      rgba(201,168,76,0.012) 41px
+    );
+  pointer-events: none;
+  border-radius: inherit;
+}
+[data-theme="light"] .elite-card::after {
+  background-image: none;
 }
 
 /* ── Card top-accent variants — 1px, no neon ── */
@@ -294,6 +315,47 @@ body {
 @keyframes scorePop { from { transform: scale(1.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes slideUp  { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes numFlash { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Football-specific design tokens ─────────────────── */
+:root,
+[data-theme="dark"] {
+  /* Pitch green (barely used — just for pitch SVG / textures) */
+  --pitch-green:        #0e5c10;
+  --pitch-line:         rgba(255, 255, 255, 0.22);
+
+  /* Score / point emphasis colors */
+  --pts-gold:    var(--gold);
+  --pts-silver:  #94A3B8;
+  --pts-bronze:  #b46e32;
+
+  /* Championship podium tints */
+  --podium-1: rgba(201, 168, 76, 0.12);
+  --podium-2: rgba(148, 163, 184, 0.07);
+  --podium-3: rgba(180, 110, 50, 0.08);
+}
+[data-theme="light"] {
+  --pitch-green:  #0a4a0c;
+  --pitch-line:   rgba(0, 0, 0, 0.25);
+  --podium-1: rgba(201, 168, 76, 0.1);
+  --podium-2: rgba(100, 130, 160, 0.06);
+  --podium-3: rgba(160, 90, 40, 0.07);
+}
+
+/* ── Football badge chip ─────────────────────────────── */
+.football-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+.football-chip-gold   { background: var(--gold-subtle);   color: var(--gold);         border: 1px solid var(--gold-border); }
+.football-chip-green  { background: var(--green-subtle);  color: var(--green-bright);  border: 1px solid var(--green-border); }
+.football-chip-blue   { background: var(--blue-subtle);   color: var(--blue-bright);   border: 1px solid var(--blue-border); }
+.football-chip-violet { background: var(--violet-subtle); color: var(--violet-bright); border: 1px solid var(--violet-border); }
 
 /* ── SplashScreen keyframes ───────────────────────────── */
 @keyframes stadiumLight {

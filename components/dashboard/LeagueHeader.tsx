@@ -34,14 +34,22 @@ export function LeagueHeader() {
       <div className="flex items-center justify-between px-5 py-4"
         style={{ borderBottom: "1px solid var(--border)" }}>
         <div className="flex items-center gap-3">
+          {/* Championship badge — football pitch mini icon */}
           <div style={{
-            width: 40, height: 40, borderRadius: 12,
-            background: "var(--gold-subtle)",
+            width: 42, height: 42, borderRadius: 12,
+            background: "linear-gradient(145deg,#0a5a0c,#074207)",
             border: "1px solid var(--gold-border)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 20,
+            position: "relative", overflow: "hidden",
           }}>
-            ⚽
+            {/* Pitch lines inside badge */}
+            <svg viewBox="0 0 42 42" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.6 }}>
+              <line x1="21" y1="4" x2="21" y2="38" stroke="rgba(255,255,255,0.3)" strokeWidth="0.6" />
+              <ellipse cx="21" cy="21" rx="7" ry="10" stroke="rgba(255,255,255,0.35)" strokeWidth="0.6" fill="none" />
+              <rect x="4" y="13" width="9" height="16" stroke="rgba(255,255,255,0.25)" strokeWidth="0.5" fill="none" />
+              <rect x="29" y="13" width="9" height="16" stroke="rgba(255,255,255,0.25)" strokeWidth="0.5" fill="none" />
+            </svg>
+            <span style={{ fontSize: 18, position: "relative", zIndex: 1 }}>⚽</span>
           </div>
           <div>
             <h1 className="font-black text-base leading-tight"

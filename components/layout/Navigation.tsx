@@ -247,14 +247,19 @@ function LeagueMark({ size = "md" }: { size?: "sm" | "md" }) {
   return (
     <div style={{
       width: s, height: s, borderRadius: r,
-      background: "linear-gradient(145deg, var(--bg-elevated), var(--bg-surface))",
+      background: "linear-gradient(145deg,#0b5a0d,#073507)",
       border: "1px solid var(--gold-border)",
       display: "flex", alignItems: "center", justifyContent: "center",
-      fontSize: size === "sm" ? 14 : 18,
-      boxShadow: "0 4px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(201,168,76,0.1)",
-      flexShrink: 0,
+      boxShadow: "0 4px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(201,168,76,0.12)",
+      flexShrink: 0, position: "relative", overflow: "hidden",
     }}>
-      ⚽
+      <svg viewBox="0 0 36 36" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.5 }}>
+        <line x1="18" y1="3" x2="18" y2="33" stroke="rgba(255,255,255,0.3)" strokeWidth="0.7" />
+        <ellipse cx="18" cy="18" rx="6" ry="9" stroke="rgba(255,255,255,0.35)" strokeWidth="0.6" fill="none" />
+        <rect x="3" y="11" width="7" height="14" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" fill="none" />
+        <rect x="26" y="11" width="7" height="14" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" fill="none" />
+      </svg>
+      <span style={{ fontSize: size === "sm" ? 13 : 17, position: "relative", zIndex: 1 }}>⚽</span>
     </div>
   );
 }
