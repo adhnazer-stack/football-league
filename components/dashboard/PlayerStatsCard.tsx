@@ -1,19 +1,23 @@
 "use client";
 
-import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useApp } from "@/lib/context";
 import { t } from "@/lib/i18n";
 import { useRM } from "@/lib/round-management-context";
-import { MedalBadge } from "@/components/standings/MedalBadge";
 
-const rowIn: Variants = {
-  hidden: { opacity: 0, x: 12 },
-  show:   { opacity: 1, x: 0, transition: { type: "spring", stiffness: 360, damping: 28 } },
-};
-const listIn: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.04 } },
+const RANK_COLORS = [
+  "var(--gold)",           // 1st
+  "#94A3B8",               // 2nd
+  "#b46e32",               // 3rd
+];
+
+const rowVariants = {
+  hidden: { opacity: 0, x: -16 },
+  show: (i: number) => ({
+    opacity: 1, x: 0,
+    transition: { type: "spring" as const, stiffness: 320, damping: 28, delay: i * 0.045 },
+  }),
 };
 
 export function PlayerStatsCard({
@@ -30,138 +34,172 @@ export function PlayerStatsCard({
 
   const stats = rm.stats;
   const getPlayer = (id: string) => rm.players.find(p => p.id === id);
-  const GRID = "28px 1fr 44px 36px 36px 34px";
+  const maxPts = stats[0]?.totalPoints ?? 1;
 
   return (
-    <motion.div
-      className="elite-card elite-card-blue flex flex-col overflow-hidden cursor-pointer"
-      whileHover={{ y: -4, transition: { type: "spring", stiffness: 380, damping: 24 } }}
-      whileTap={{ scale: 0.985, transition: { type: "spring", stiffness: 500, damping: 24 } }}
-      onClick={onExpand}
-    >
-      {/* Header */}
-      <div className="px-5 py-4 flex items-center justify-between"
+    <div className="elite-card flex flex-col overflow-hidden" style={{ height: "100%" }}>
+
+      {/* ── Header ── */}
+      <div className="flex items-center justify-between px-5 py-4"
         style={{ borderBottom: "1px solid var(--border)" }}>
-        <div className="flex items-center gap-3">
-          <div style={{
-            width: 36, height: 36, borderRadius: 10,
-            background: "var(--blue-subtle)",
-            border: "1px solid var(--blue-border)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 16,
-          }}>
-            📊
-          </div>
-          <div>
-            <h2 className="font-black text-sm" style={{ color: "var(--text-primary)" }}>
-              {tx("playerStatistics")}
-            </h2>
-            <p className="text-[11px]" style={{ color: "var(--text-muted)" }}>
-              {rm.rounds.length} {isRtl ? "جولة" : "rounds"} · {tx("season")}
-            </p>
-          </div>
+        <div>
+          <h2 className="font-black text-xs tracking-[0.22em] uppercase"
+            style={{ color: "var(--gold)" }}>
+            {tx("playerStatistics")}
+          </h2>
+          <p className="text-[10px] mt-0.5" style={{ color: "var(--text-muted)" }}>
+            {rm.rounds.length} {isRtl ? "جولة" : "rounds"} · {tx("season")}
+          </p>
         </div>
-        <motion.button
-          className="flex items-center gap-1 text-[11px] font-bold px-3 py-1.5 rounded-lg"
+        <button
+          className="flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-lg"
           style={{
+            background: "var(--bg-elevated)",
+            border: "1px solid var(--border)",
             color: "var(--text-muted)",
-            background: "var(--blue-subtle)",
-            border: "1px solid var(--blue-border)",
           }}
-          whileHover={{ color: "var(--blue-bright)" }}
-          whileTap={{ scale: 0.95 }}
-          onClick={e => { e.stopPropagation(); onExpand?.(); }}
+          onClick={onExpand}
         >
           {tx("viewAll")}
-          <ArrowRight size={11} className={isRtl ? "rotate-180" : ""} />
-        </motion.button>
+          {isRtl ? <ChevronLeft size={11} /> : <ChevronRight size={11} />}
+        </button>
       </div>
 
-      {/* Column headers */}
-      <div className="grid px-4 py-2 text-[9px] font-black tracking-[0.28em] uppercase"
+      {/* ── Table head ── */}
+      <div className="grid text-[8px] font-black tracking-[0.3em] uppercase px-5 py-2"
         style={{
-          gridTemplateColumns: GRID,
+          gridTemplateColumns: "52px 1fr 56px 28px 28px 28px",
           color: "var(--text-muted)",
           borderBottom: "1px solid var(--border-subtle)",
+          direction: isRtl ? "rtl" : "ltr",
         }}>
-        <span className="text-center">#</span>
-        <span className={isRtl ? "text-right" : ""}>{tx("player")}</span>
-        <span className="text-right" style={{ color: "rgba(201,168,76,0.7)" }}>PTS</span>
-        <span className="text-right" style={{ color: "var(--green-bright)", opacity: 0.7 }}>W</span>
-        <span className="text-right" style={{ color: "var(--blue-bright)", opacity: 0.7 }}>⚡</span>
-        <span className="text-right" style={{ color: "var(--violet-bright)", opacity: 0.7 }}>💰</span>
+        <span>#</span>
+        <span>{tx("player")}</span>
+        <span className="text-right" style={{ color: "rgba(201,168,76,0.65)" }}>PTS</span>
+        <span className="text-center" style={{ color: "rgba(34,197,94,0.65)" }}>W</span>
+        <span className="text-center" style={{ color: "rgba(96,165,250,0.65)" }}>⚡</span>
+        <span className="text-center" style={{ color: "rgba(167,139,250,0.65)" }}>💰</span>
       </div>
 
-      {/* Player rows */}
+      {/* ── Rows ── */}
       <div className="flex-1 overflow-auto hide-scrollbar">
-        <motion.div variants={listIn} initial="hidden" animate="show">
+        <AnimatePresence>
           {stats.map((stat, idx) => {
             const player = getPlayer(stat.playerId);
             if (!player) return null;
             const photo = rm.photos[stat.playerId];
-            const rankClass = idx === 0 ? "row-rank-1" : idx === 1 ? "row-rank-2" : idx === 2 ? "row-rank-3" : "";
-            const name = language === "ar" ? player.name : (player.nameEn ?? player.name);
+            const name  = language === "ar" ? player.name : (player.nameEn ?? player.name);
+            const pct   = maxPts > 0 ? (stat.totalPoints / maxPts) * 100 : 0;
+            const rc    = RANK_COLORS[idx] ?? "var(--text-muted)";
+            const isTop = idx < 3;
+
             return (
               <motion.div
                 key={stat.playerId}
-                className={`grid px-4 py-2.5 items-center text-xs ${rankClass}`}
+                custom={idx}
+                variants={rowVariants}
+                initial="hidden"
+                animate="show"
+                className="standings-row"
                 style={{
-                  gridTemplateColumns: GRID,
-                  borderBottom: "1px solid var(--border-subtle)",
+                  gridTemplateColumns: "52px 1fr 56px 28px 28px 28px",
+                  direction: isRtl ? "rtl" : "ltr",
+                  background: idx === 0 ? "rgba(201,168,76,0.05)" : undefined,
                   cursor: onPlayerClick ? "pointer" : "default",
-                  position: "relative",
+                  display: "grid",
                 }}
-                variants={rowIn}
-                whileHover={{ background: idx < 3 ? undefined : "var(--bg-hover)" }}
-                whileTap={{ scale: 0.985 }}
-                onClick={e => { e.stopPropagation(); onPlayerClick?.(stat.playerId); }}
+                onClick={() => onPlayerClick?.(stat.playerId)}
               >
-                <div className="flex justify-center">
-                  <MedalBadge rank={stat.rank} size="sm" />
-                </div>
-                <div className="flex items-center gap-2 min-w-0">
+                {/* Rank */}
+                <span className="rank-numeral"
+                  style={{
+                    fontSize: isTop ? "1.8rem" : "1.2rem",
+                    color: rc,
+                    opacity: isTop ? 1 : 0.4,
+                  }}>
+                  {stat.rank}
+                </span>
+
+                {/* Player */}
+                <div className="flex items-center gap-2.5 min-w-0">
                   {photo ? (
                     <img src={photo} alt={name}
-                      className="w-6 h-6 rounded-full flex-shrink-0 object-cover"
-                      style={{ border: `1px solid ${player.color}44` }} />
+                      style={{
+                        width: 36, height: 36, borderRadius: "50%",
+                        objectFit: "cover", flexShrink: 0,
+                        border: `1.5px solid ${player.color}44`,
+                      }} />
                   ) : (
-                    <div
-                      className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-[8px] font-black text-white"
-                      style={{ background: `linear-gradient(135deg,${player.color},${player.color}99)` }}>
+                    <div style={{
+                      width: 36, height: 36, borderRadius: "50%",
+                      background: `linear-gradient(135deg,${player.color},${player.color}88)`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 12, fontWeight: 900, color: "#fff", flexShrink: 0,
+                    }}>
                       {player.name[0]}
                     </div>
                   )}
-                  <span className="font-semibold truncate"
-                    style={{ color: "var(--text-primary)", direction: isRtl ? "rtl" : "ltr" }}>
-                    {name}
-                  </span>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[12px] truncate"
+                      style={{ color: "var(--text-primary)", direction: isRtl ? "rtl" : "ltr" }}>
+                      {name}
+                    </div>
+                    {/* Points bar */}
+                    <div style={{
+                      height: 2, width: "100%", maxWidth: 80,
+                      background: "var(--border-strong)", borderRadius: 4, marginTop: 4, overflow: "hidden",
+                    }}>
+                      <motion.div
+                        style={{ height: "100%", background: rc, borderRadius: 4 }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${pct}%` }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 + idx * 0.04 }}
+                      />
+                    </div>
+                  </div>
                 </div>
+
+                {/* Points */}
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={`pts-${stat.totalPoints}`}
                     className="text-right font-black"
-                    style={{ color: "var(--gold)" }}
-                    initial={{ scale: 1.4, opacity: 0 }}
+                    style={{ fontSize: "1.1rem", color: "var(--gold)", letterSpacing: "-0.02em" }}
+                    initial={{ scale: 1.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ type: "spring", stiffness: 440, damping: 22 }}
-                  >{stat.totalPoints}</motion.span>
+                    transition={{ type: "spring", stiffness: 400, damping: 22 }}
+                  >
+                    {stat.totalPoints}
+                  </motion.span>
                 </AnimatePresence>
-                <span className="text-right font-bold" style={{ color: "var(--green-bright)" }}>{stat.wins}</span>
-                <span className="text-right" style={{ color: "var(--blue-bright)" }}>{stat.earlyArrivals}</span>
-                <span className="text-right" style={{ color: "var(--violet-bright)" }}>{stat.payments}</span>
+
+                {/* W */}
+                <span className="text-center text-xs font-bold" style={{ color: "var(--green-bright)" }}>
+                  {stat.wins}
+                </span>
+
+                {/* Early */}
+                <span className="text-center text-xs" style={{ color: "var(--blue-bright)" }}>
+                  {stat.earlyArrivals}
+                </span>
+
+                {/* Payment */}
+                <span className="text-center text-xs" style={{ color: "var(--violet-bright)" }}>
+                  {stat.payments}
+                </span>
               </motion.div>
             );
           })}
-        </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* Legend */}
-      <div className="flex items-center gap-4 px-5 py-2.5 flex-wrap"
-        style={{ borderTop: "1px solid var(--border-subtle)", fontSize: 10, color: "var(--text-muted)" }}>
-        <span><span style={{ color: "var(--gold)" }}>W</span>=3pts</span>
-        <span><span style={{ color: "var(--blue-bright)" }}>⚡</span>=+2pts</span>
-        <span><span style={{ color: "var(--violet-bright)" }}>💰</span>=+1pt</span>
+      {/* ── Legend ── */}
+      <div className="flex items-center gap-4 px-5 py-2.5"
+        style={{ borderTop: "1px solid var(--border-subtle)" }}>
+        <span style={{ fontSize: 10, color: "var(--text-muted)" }}>
+          <span style={{ color: "var(--gold)" }}>PTS</span> · W=3 ⚡=+2 💰=+1
+        </span>
       </div>
-    </motion.div>
+    </div>
   );
 }

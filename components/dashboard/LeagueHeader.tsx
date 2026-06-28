@@ -1,10 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Users, Flame } from "lucide-react";
+import { Flame } from "lucide-react";
 import { useApp } from "@/lib/context";
 import { useRM } from "@/lib/round-management-context";
-import { NumberTicker } from "@/components/magicui/number-ticker";
 
 const TOTAL_ROUNDS = 18;
 
@@ -19,170 +18,172 @@ export function LeagueHeader() {
     ? (language === "ar" ? leaderPlayer.name : (leaderPlayer.nameEn ?? leaderPlayer.name))
     : "—";
   const currentRound = rm.currentRoundNumber;
-  const totalPlayers = rm.players.length;
   const progress     = Math.min((currentRound / TOTAL_ROUNDS) * 100, 100);
   const isActive     = roundStatus === "active";
 
   return (
-    <motion.div
-      className="elite-card elite-card-gold mb-5 vt-hdr"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 28 }}
-    >
-      {/* Title row */}
-      <div className="flex items-center justify-between px-5 py-4"
-        style={{ borderBottom: "1px solid var(--border)" }}>
-        <div className="flex items-center gap-3">
-          {/* Championship badge — football pitch mini icon */}
-          <div style={{
-            width: 42, height: 42, borderRadius: 12,
-            background: "linear-gradient(145deg,#0a5a0c,#074207)",
-            border: "1px solid var(--gold-border)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            position: "relative", overflow: "hidden",
-          }}>
-            {/* Pitch lines inside badge */}
-            <svg viewBox="0 0 42 42" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.6 }}>
-              <line x1="21" y1="4" x2="21" y2="38" stroke="rgba(255,255,255,0.3)" strokeWidth="0.6" />
-              <ellipse cx="21" cy="21" rx="7" ry="10" stroke="rgba(255,255,255,0.35)" strokeWidth="0.6" fill="none" />
-              <rect x="4" y="13" width="9" height="16" stroke="rgba(255,255,255,0.25)" strokeWidth="0.5" fill="none" />
-              <rect x="29" y="13" width="9" height="16" stroke="rgba(255,255,255,0.25)" strokeWidth="0.5" fill="none" />
-            </svg>
-            <span style={{ fontSize: 18, position: "relative", zIndex: 1 }}>⚽</span>
-          </div>
-          <div>
-            <h1 className="font-black text-base leading-tight"
-              style={{ color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
-              {isAr ? "بطولة الدوري" : "League Championship"}
-            </h1>
-            <p className="text-[11px]" style={{ color: "var(--text-muted)" }}>
-              {isAr ? "الموسم 2025/26" : "Season 2025/26"}
-            </p>
-          </div>
-        </div>
+    <div className="relative w-full overflow-hidden vt-hdr" style={{ background: "var(--bg-surface)" }}>
 
-        {/* Round badge */}
-        <div className="flex items-center gap-2">
+      {/* Gold top accent line */}
+      <div style={{
+        position: "absolute", top: 0, left: 0, right: 0, height: 2,
+        background: "linear-gradient(90deg,transparent,var(--gold) 25%,var(--gold-bright) 50%,var(--gold) 75%,transparent)",
+      }} />
+
+      {/* Background texture — subtle diagonal */}
+      <div style={{
+        position: "absolute", inset: 0, opacity: 0.025,
+        backgroundImage: "repeating-linear-gradient(-45deg,var(--gold) 0,var(--gold) 1px,transparent 0,transparent 50%)",
+        backgroundSize: "24px 24px",
+        pointerEvents: "none",
+      }} />
+
+      <div className="px-5 md:px-8 pt-8 pb-6 relative">
+
+        {/* Season & status row */}
+        <div className="flex items-center gap-3 mb-6">
+          <span className="section-label">
+            {isAr ? "الموسم 2025/26" : "SEASON 2025/26"}
+          </span>
+          <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
           <AnimatePresence>
             {isActive && (
               <motion.div
+                className="flex items-center gap-1.5"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
-                style={{ background: "var(--red-subtle)", border: "1px solid var(--red-border)" }}
               >
-                <div className="w-1.5 h-1.5 rounded-full live-dot" />
-                <span className="text-[10px] font-black" style={{ color: "var(--red-bright)", letterSpacing: "0.1em" }}>
+                <motion.div
+                  className="w-2 h-2 rounded-full"
+                  style={{ background: "var(--red-bright)" }}
+                  animate={{ scale: [1, 1.5, 1], opacity: [1, 0.4, 1] }}
+                  transition={{ duration: 1.2, repeat: Infinity }}
+                />
+                <span className="text-[9px] font-black tracking-widest"
+                  style={{ color: "var(--red-bright)" }}>
                   LIVE
                 </span>
                 <Flame size={10} style={{ color: "var(--red-bright)" }} />
               </motion.div>
             )}
           </AnimatePresence>
-          <div className="text-right">
-            <div className="flex items-baseline gap-1 justify-end">
-              <span className="font-black text-2xl leading-none" style={{ color: "var(--gold)" }}>
-                {currentRound}
-              </span>
-              <span className="text-xs" style={{ color: "var(--text-muted)" }}>/ {TOTAL_ROUNDS}</span>
+        </div>
+
+        {/* Main hero row */}
+        <div className={`flex items-end gap-6 md:gap-10 ${isAr ? "flex-row-reverse" : ""}`}>
+
+          {/* LEFT: Enormous round number */}
+          <div className="flex-shrink-0">
+            <div className="section-label mb-2">
+              {isAr ? "جولة" : "ROUND"}
             </div>
-            <p className="text-[9px] tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>
-              {isAr ? "جولة" : "Round"}
-            </p>
+            <motion.div
+              className="rank-numeral"
+              style={{
+                fontSize: "clamp(5rem, 16vw, 9rem)",
+                color: "var(--gold)",
+                letterSpacing: "-0.03em",
+              }}
+              key={currentRound}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 22, delay: 0.1 }}
+            >
+              {String(currentRound).padStart(2, "0")}
+            </motion.div>
+            <div className="text-xs font-bold mt-1" style={{ color: "var(--text-muted)" }}>
+              {isAr ? `من ${TOTAL_ROUNDS}` : `of ${TOTAL_ROUNDS}`}
+            </div>
+          </div>
+
+          {/* Vertical divider */}
+          <div style={{
+            width: 1, height: 80, flexShrink: 0,
+            background: "linear-gradient(to bottom,transparent,var(--border-strong),transparent)",
+          }} />
+
+          {/* RIGHT: Leader info */}
+          <div className={`flex-1 min-w-0 ${isAr ? "text-right" : ""}`}>
+            <div className="section-label mb-2">
+              {isAr ? "يتصدر" : "CURRENTLY LEADING"}
+            </div>
+            <motion.div
+              className="font-black leading-none truncate"
+              style={{
+                fontSize: "clamp(1.8rem, 5.5vw, 3.8rem)",
+                color: "var(--text-primary)",
+                direction: isAr ? "rtl" : "ltr",
+                letterSpacing: "-0.02em",
+              }}
+              key={leaderName}
+              initial={{ opacity: 0, x: isAr ? 20 : -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 22, delay: 0.18 }}
+            >
+              {leaderName}
+            </motion.div>
+
+            {leader && (
+              <motion.div
+                className="flex items-baseline gap-2 mt-3"
+                style={{ justifyContent: isAr ? "flex-end" : "flex-start" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.32 }}
+              >
+                <span className="font-black"
+                  style={{ fontSize: "clamp(1.6rem, 4vw, 2.5rem)", color: "var(--gold)" }}>
+                  {leader.totalPoints}
+                </span>
+                <span className="font-bold text-sm" style={{ color: "var(--text-muted)" }}>
+                  {isAr ? "نقطة" : "PTS"}
+                </span>
+                <span style={{
+                  width: 1, height: 14, background: "var(--border-strong)", display: "inline-block", margin: "0 4px",
+                }} />
+                <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>
+                  {leader.wins} {isAr ? "فوز" : "wins"}
+                </span>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Stats row */}
-      <div className="grid grid-cols-3"
-        style={{ borderBottom: "1px solid var(--border)" }}>
-        {/* Leader */}
-        <div className="px-5 py-3"
-          style={{ borderRight: "1px solid var(--border)" }}>
-          <div className="flex items-center gap-1.5 mb-1">
-            <Trophy size={11} style={{ color: "var(--gold)" }} />
-            <p className="text-[10px] font-bold tracking-widest uppercase"
-              style={{ color: "var(--text-muted)" }}>
-              {isAr ? "المتصدر" : "Leader"}
-            </p>
-          </div>
-          <p className="font-black text-sm truncate leading-tight"
-            style={{ color: "var(--text-primary)", direction: isAr ? "rtl" : "ltr" }}>
-            {leaderName.split(" ")[0]}
-          </p>
-          {leader && (
-            <p className="text-xs font-bold mt-0.5" style={{ color: "var(--gold)" }}>
-              <NumberTicker value={leader.totalPoints} className="font-black" />
-              <span className="font-medium text-[10px] ml-0.5"
-                style={{ color: "var(--text-muted)" }}>
-                {isAr ? " نقطة" : " pts"}
-              </span>
-            </p>
-          )}
-        </div>
-
-        {/* Season progress */}
-        <div className="px-5 py-3" style={{ borderRight: "1px solid var(--border)" }}>
-          <p className="text-[10px] font-bold tracking-widest uppercase mb-2"
-            style={{ color: "var(--text-muted)" }}>
-            {isAr ? "التقدم" : "Progress"}
-          </p>
-          <div className="h-1.5 rounded-full overflow-hidden mb-1.5"
-            style={{ background: "var(--border-strong)" }}>
-            <motion.div className="h-full rounded-full"
-              style={{ background: "var(--gold)" }}
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.4 }}
-            />
-          </div>
-          <p className="text-[10px]" style={{ color: "var(--text-muted)" }}>
-            {currentRound}/{TOTAL_ROUNDS} {isAr ? "جولة" : "rounds"}
-          </p>
-        </div>
-
-        {/* Players */}
-        <div className="px-5 py-3">
-          <div className="flex items-center gap-1.5 mb-1">
-            <Users size={11} style={{ color: "var(--blue-bright)" }} />
-            <p className="text-[10px] font-bold tracking-widest uppercase"
-              style={{ color: "var(--text-muted)" }}>
-              {isAr ? "لاعبون" : "Players"}
-            </p>
-          </div>
-          <p className="font-black text-2xl leading-none"
-            style={{ color: "var(--text-primary)" }}>
-            <NumberTicker value={totalPlayers} />
-          </p>
-        </div>
+      {/* Season progress bar */}
+      <div style={{ height: 3, background: "var(--border-strong)", position: "relative" }}>
+        <motion.div
+          style={{ height: "100%", background: "var(--gold)", position: "absolute", left: 0, top: 0 }}
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+        />
       </div>
 
-      {/* Active round banner */}
+      {/* Live round banner */}
       <AnimatePresence>
         {isActive && (
           <motion.div
-            className="flex items-center justify-between px-5 py-2.5"
-            style={{ background: "var(--red-subtle)" }}
+            className="flex items-center justify-between px-5 md:px-8 py-2.5"
+            style={{
+              background: "rgba(220,38,38,0.06)",
+              borderTop: "1px solid var(--red-border)",
+            }}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full live-dot" />
-              <span className="text-[11px] font-black"
-                style={{ color: "var(--red-bright)", letterSpacing: "0.08em" }}>
-                {isAr ? "الجولة نشطة الآن" : "ROUND IN PROGRESS"}
-              </span>
-            </div>
-            <span className="text-[10px]" style={{ color: "var(--red-bright)", opacity: 0.7 }}>
+            <span className="text-xs font-black tracking-wider" style={{ color: "var(--red-bright)" }}>
+              {isAr ? "⚡ الجولة جارية الآن" : "⚡ ROUND IN PROGRESS"}
+            </span>
+            <span className="text-xs font-medium" style={{ color: "var(--red-bright)", opacity: 0.7 }}>
               {isAr ? `جولة ${currentRound}` : `Round ${currentRound}`}
             </span>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
